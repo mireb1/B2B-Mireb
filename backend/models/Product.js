@@ -21,11 +21,58 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true
+    required: true,
+    enum: ['health', 'cosmetics', 'wellness', 'biotechnology', 'fashion', 'home', 'it', 'electronics', 'accessories', 'phone']
+  },
+  mainCategory: {
+    type: String,
+    required: false
+  },
+  subCategory: {
+    type: String,
+    required: false
+  },
+  specifications: {
+    type: Map,
+    of: String,
+    default: {}
+  },
+  ratings: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer'
+      },
+      rating: {
+        type: Number,
+        min: 1,
+        max: 5
+      },
+      comment: String,
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
+  averageRating: {
+    type: Number,
+    default: 0
+  },
+  promotionLabel: {
+    type: String,
+    enum: ['none', 'new', 'sale', 'hot', 'limited'],
+    default: 'none'
+  },
+  discount: {
+    type: Number,
+    min: 0,
+    max: 100,
+    default: 0
   },
   inStock: {
-    type: Boolean,
-    default: true
+    type: Number,
+    default: 0
   },
   createdAt: {
     type: Date,

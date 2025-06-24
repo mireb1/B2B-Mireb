@@ -4,13 +4,18 @@ const orderController = require('../controllers/orderController');
 const auth = require('../middleware/auth');
 const adminAuth = require('../middleware/adminAuth');
 
-// Public routes
+// Routes publiques
 router.post('/', orderController.createOrder);
 
-// Protected routes
+// Routes protégées (authentification requise)
 router.get('/', auth, orderController.getAllOrders);
 router.get('/:id', auth, orderController.getOrder);
+router.get('/stats/dashboard', auth, adminAuth, orderController.getOrderStats);
+
+// Routes protégées (admin uniquement)
 router.put('/:id/status', auth, adminAuth, orderController.updateOrderStatus);
+router.put('/:id/delivery', auth, adminAuth, orderController.updateDeliveryInfo);
+router.put('/:id/tracking', auth, orderController.updateDeliveryTracking);
 router.delete('/:id', auth, adminAuth, orderController.deleteOrder);
 
 module.exports = router;

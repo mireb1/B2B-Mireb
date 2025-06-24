@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produits - Mireb Marketplace</title>
+    <title>Produits - Mireb Commercial</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="categories.css">
+    <link rel="stylesheet" href="product-detail.css">
+    <link rel="stylesheet" href="product-filters.css">
+    <script src="js/api-service.js"></script>
+    <script src="js/product-detail.js" defer></script>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>Mireb Marketplace</h1>
+        <h1>Mireb Commercial</h1>
         <nav>
             <ul>
                 <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
@@ -26,12 +31,115 @@
             <p>Découvrez notre sélection de produits pour les professionnels</p>
         </section>
 
-        <section class="product-categories">
-            <div class="category-filters">
-                <button class="filter-btn active" data-category="all">Tous les produits</button>
-                <button class="filter-btn" data-category="premium">Premium</button>
-                <button class="filter-btn" data-category="standard">Standard</button>
-                <button class="filter-btn" data-category="basic">Basique</button>
+        <section class="product-filtering">
+            <div class="filter-controls">
+                <div class="filter-toggle">
+                    <button id="filter-button" class="control-button">
+                        <i class="fas fa-filter"></i> Filtres
+                    </button>
+                    <div class="sort-wrapper">
+                        <label for="sort-select">Trier par:</label>
+                        <select id="sort-select">
+                            <option value="popular">Popularité</option>
+                            <option value="recent">Nouveautés</option>
+                            <option value="price-asc">Prix croissant</option>
+                            <option value="price-desc">Prix décroissant</option>
+                            <option value="name-asc">Nom (A-Z)</option>
+                            <option value="name-desc">Nom (Z-A)</option>
+                        </select>
+                    </div>
+                    <div class="view-toggle">
+                        <button id="grid-view" class="view-button active">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button id="list-view" class="view-button">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="filters-panel" class="filters-panel">
+                    <div class="filter-section">
+                        <h4>Catégories</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" value="health"> Santé
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="cosmetics"> Cosmétiques
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="wellness"> Bien-être
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="biotechnology"> Biotechnologie
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="fashion"> Mode
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="home"> Maison
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="it"> IT
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="electronics"> Électronique
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="accessories"> Accessoires
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="phone"> Téléphonie
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Prix</h4>
+                        <div class="range-filter">
+                            <div class="range-inputs">
+                                <input type="number" id="min-price" placeholder="Min" min="0">
+                                <span>-</span>
+                                <input type="number" id="max-price" placeholder="Max" min="0">
+                            </div>
+                            <button id="price-filter-btn" class="apply-filter">Appliquer</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Promotions</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" value="new"> Nouveautés
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="sale"> En solde
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="hot"> Populaires
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>Disponibilité</h4>
+                        <div class="filter-options">
+                            <label class="filter-option">
+                                <input type="checkbox" value="in-stock"> En stock
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button id="reset-filters" class="secondary-btn">Réinitialiser</button>
+                        <button id="apply-filters" class="primary-btn">Appliquer</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="active-filters" id="active-filters">
+                <!-- Les filtres actifs seront ajoutés ici -->
             </div>
         </section>
 
@@ -130,19 +238,127 @@
             </div>
         </section>
 
+        <!-- Modal de détail du produit -->
+        <div id="product-detail-modal" class="modal" style="display:none;">
+            <div class="modal-content large-modal">
+                <span class="close-modal">&times;</span>
+                <div class="product-detail-container">
+                    <div class="product-detail-img">
+                        <img id="detail-product-img" src="" alt="Image du produit">
+                        <div class="product-badges">
+                            <span id="detail-badge" class="product-badge"></span>
+                            <span id="detail-discount" class="discount-badge"></span>
+                        </div>
+                    </div>
+                    <div class="product-detail-info">
+                        <h2 id="detail-product-name"></h2>
+                        <div class="product-rating" id="detail-rating"></div>
+                        <div class="product-price">
+                            <span id="detail-price"></span>
+                            <span id="detail-original-price"></span>
+                        </div>
+                        <div class="product-availability">
+                            <span id="detail-availability"></span>
+                        </div>
+                        <div class="product-description">
+                            <h4>Description</h4>
+                            <p id="detail-description"></p>
+                        </div>
+                        <div class="product-specs" id="product-specifications">
+                            <h4>Spécifications</h4>
+                            <table id="specs-table">
+                                <!-- Les spécifications seront ajoutées dynamiquement -->
+                            </table>
+                        </div>
+                        <button id="detail-order-btn" class="order-btn">Commander</button>
+                    </div>
+                </div>
+                <div class="product-tabs">
+                    <button class="tab-btn active" data-tab="reviews">Avis clients</button>
+                    <button class="tab-btn" data-tab="related">Produits similaires</button>
+                </div>
+                <div class="product-tab-content active" id="reviews-tab">
+                    <div class="reviews-container" id="product-reviews">
+                        <!-- Les avis seront ajoutés dynamiquement -->
+                        <div class="no-reviews" id="no-reviews">Aucun avis pour le moment</div>
+                    </div>
+                </div>
+                <div class="product-tab-content" id="related-tab">
+                    <div class="related-products" id="related-products">
+                        <!-- Les produits similaires seront ajoutés dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de commande -->
         <div id="order-modal" class="modal" style="display:none;">
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
-                <h3>Commande (Paiement à la réception)</h3>
+                <h3>Commande (Paiement à la livraison)</h3>
                 <form id="order-form">
                     <input type="hidden" id="produit-commande" name="produit">
-                    <label for="nom">Nom :</label>
-                    <input type="text" id="nom" name="nom" required>
-                    <label for="tel">Téléphone :</label>
-                    <input type="tel" id="tel" name="tel" required>
-                    <label for="adresse">Adresse :</label>
-                    <input type="text" id="adresse" name="adresse" required>
-                    <button type="submit">Valider la commande</button>
+                    <input type="hidden" id="produit-id" name="produitId">
+                    <input type="hidden" id="produit-price" name="produitPrice">
+                    
+                    <div class="form-section">
+                        <h4>Informations personnelles</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nom"><i class="fas fa-user"></i> Nom complet:</label>
+                                <input type="text" id="nom" name="nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> E-mail:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tel"><i class="fas fa-phone"></i> Téléphone:</label>
+                                <input type="tel" id="tel" name="tel" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Adresse de livraison</h4>
+                        <div class="form-group">
+                            <label for="adresse"><i class="fas fa-map-marker-alt"></i> Adresse complète:</label>
+                            <input type="text" id="adresse" name="adresse" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Informations de livraison</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="delivery-date"><i class="fas fa-calendar-alt"></i> Date souhaitée:</label>
+                                <input type="date" id="delivery-date" name="deliveryDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-time"><i class="fas fa-clock"></i> Heure souhaitée:</label>
+                                <input type="time" id="delivery-time" name="deliveryTime" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="order-notes"><i class="fas fa-sticky-note"></i> Notes (optionnel):</label>
+                            <textarea id="order-notes" name="notes" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section payment-section">
+                        <h4>Mode de paiement</h4>
+                        <div class="payment-option">
+                            <input type="radio" id="payment-delivery" name="payment" value="livraison" checked>
+                            <label for="payment-delivery">
+                                <i class="fas fa-truck"></i>
+                                <span>Paiement à la livraison</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-order-btn"><i class="fas fa-check"></i> Valider la commande</button>
                 </form>
                 <div id="order-message"></div>
             </div>

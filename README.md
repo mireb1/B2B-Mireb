@@ -1,4 +1,105 @@
-# B2B-Mireb
+# 🏢 B2B-Mireb - Plateforme E-commerce B2B
+
+## 📋 Description
+Plateforme e-commerce B2B complète pour la gestion des commandes professionnelles avec interface d'administration.
+
+## 🚀 Fonctionnalités
+- ✅ Gestion des produits et catégories
+- ✅ Système de commandes B2B
+- ✅ Interface d'administration
+- ✅ Authentification sécurisée
+- ✅ Gestion des clients
+- ✅ Système de messages
+- ✅ Tableau de bord analytics
+
+## 🛠️ Technologies
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Backend**: Node.js, Express.js
+- **Base de données**: MongoDB Atlas
+- **Authentification**: JWT
+
+## 📦 Installation
+
+### Prérequis
+- Node.js (v14+)
+- MongoDB Atlas account
+- Git
+
+### Configuration
+1. Cloner le projet
+```bash
+git clone https://github.com/VOTRE-USERNAME/b2b-mireb.git
+cd b2b-mireb
+```
+
+2. Installer les dépendances
+```bash
+cd backend
+npm install
+```
+
+3. Configurer les variables d'environnement
+Créer un fichier `.env` dans le dossier `backend/` :
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.mongodb.net/b2b-mireb
+JWT_SECRET=votre-secret-jwt
+NODE_ENV=development
+```
+
+4. Initialiser l'administrateur
+```bash
+node initAdmin.js
+```
+
+5. Démarrer les serveurs
+```bash
+# Backend (Terminal 1)
+npm start
+
+# Frontend (Terminal 2)
+cd ..
+python3 -m http.server 3000
+```
+
+## 🌐 Accès
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **Admin**: http://localhost:3000/admin.html
+
+## 📁 Structure du projet
+```
+B2B-Mireb/
+├── backend/                 # API Node.js
+│   ├── controllers/        # Logique métier
+│   ├── models/            # Modèles MongoDB
+│   ├── routes/            # Routes API
+│   ├── middleware/        # Authentification
+│   └── server.js          # Serveur principal
+├── js/                    # Scripts frontend
+├── assets/               # Images et ressources
+├── *.html               # Pages web
+└── *.css                # Styles
+```
+
+## 🔐 Sécurité
+- Authentification JWT
+- Middleware de protection des routes
+- Validation des données
+- Protection CORS
+
+## 👥 Utilisation
+1. Accéder à l'interface d'administration
+2. Gérer les produits et catégories
+3. Traiter les commandes clients
+4. Analyser les performances
+
+## 📞 Contact
+- Email: mirebcommercial@gmail.com
+- Projet: B2B E-commerce Platform
+
+## 📄 Licence
+MIT License
 
 Une plateforme B2B moderne pour connecter les entreprises et faciliter les échanges commerciaux.
 

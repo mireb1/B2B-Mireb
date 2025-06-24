@@ -1,0 +1,360 @@
+/* Styles pour la gestion des filtres et du tri des produits */
+
+.product-filtering {
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.filter-controls {
+    margin-bottom: 20px;
+}
+
+.filter-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.control-button {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.control-button:hover {
+    background-color: #303f9f;
+}
+
+.sort-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-wrapper label {
+    color: #555;
+    font-weight: 500;
+}
+
+.sort-wrapper select {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 5px;
+}
+
+.view-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.2s ease;
+}
+
+.view-button:hover, .view-button.active {
+    background-color: #3f51b5;
+    border-color: #3f51b5;
+    color: white;
+}
+
+.filters-panel {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: none;
+}
+
+.filters-panel.show {
+    display: block;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.filter-section h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1rem;
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px 0;
+    min-width: 120px;
+}
+
+.filter-option input {
+    cursor: pointer;
+}
+
+.range-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.range-inputs input {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.apply-filter {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.secondary-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.primary-btn {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #303f9f;
+}
+
+.active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    color: #1976d2;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.filter-tag i {
+    cursor: pointer;
+}
+
+/* Style pour l'affichage des produits en liste */
+.product-list.list-view .product {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    height: auto;
+    align-items: center;
+    padding: 20px;
+}
+
+.product-list.list-view .product img {
+    width: 120px;
+    height: 120px;
+    margin-right: 30px;
+    margin-bottom: 0;
+}
+
+.product-list.list-view .product .product-badge {
+    top: 20px;
+    left: 20px;
+}
+
+.product-list.list-view .product .product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-list.list-view .product h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+.product-list.list-view .product .product-rating {
+    margin: 5px 0;
+}
+
+.product-list.list-view .product .product-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.product-list.list-view .product .price {
+    font-size: 1.3rem;
+    margin-right: 15px;
+}
+
+/* Style pour l'affichage des produits en grille */
+.product-list.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.product-list.grid-view .product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-list.grid-view .product img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.product-list.grid-view .product-info {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-list.grid-view .product-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style pour les badges de promotion */
+.promotion-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.promotion-badge.new {
+    background-color: #4caf50;
+    color: white;
+}
+
+.promotion-badge.sale {
+    background-color: #f44336;
+    color: white;
+}
+
+.promotion-badge.hot {
+    background-color: #ff9800;
+    color: white;
+}
+
+.promotion-badge.limited {
+    background-color: #9c27b0;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filter-toggle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .sort-wrapper {
+        width: 100%;
+        margin: 10px 0;
+    }
+    
+    .product-list.list-view .product {
+        flex-direction: column;
+    }
+    
+    .product-list.list-view .product img {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}

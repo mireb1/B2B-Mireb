@@ -12,6 +12,7 @@ const orderRoutes = require('./routes/orders');
 const customerRoutes = require('./routes/customers');
 const messageRoutes = require('./routes/messages');
 const dashboardRoutes = require('./routes/dashboard');
+const categoryRoutes = require('./routes/categories');
 
 // Initialize app
 const app = express();
@@ -35,6 +36,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

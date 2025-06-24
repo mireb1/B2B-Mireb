@@ -46,9 +46,50 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    default: 'paiement à la réception'
+    default: 'paiement à la livraison'
   },
   notes: String,
+  deliveryInfo: {
+    requestedDate: {
+      type: Date,
+      required: true
+    },
+    requestedTime: {
+      type: String,
+      required: true
+    },
+    actualDeliveryDate: {
+      type: Date
+    },
+    trackingNumber: {
+      type: String
+    },
+    deliveryPerson: {
+      name: String,
+      phone: String
+    },
+    currentLocation: {
+      lat: Number,
+      lng: Number,
+      updatedAt: Date
+    },
+    estimatedArrival: {
+      type: Date
+    }
+  },
+  statusHistory: [
+    {
+      status: {
+        type: String,
+        enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+      },
+      timestamp: {
+        type: Date,
+        default: Date.now
+      },
+      comment: String
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now
