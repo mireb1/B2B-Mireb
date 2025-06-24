@@ -19,6 +19,12 @@
                 <button type="submit"><i class="fas fa-search"></i></button>
             </div>
             <div class="header-actions">
+                <div class="currency-selector">
+                    <select id="currencySelect" onchange="changeCurrency()">
+                        <option value="EUR">EUR €</option>
+                        <option value="USD">USD $</option>
+                    </select>
+                </div>
                 <a href="contact.html" class="contact-btn">Contact</a>
                 <a href="admin.html" class="admin-btn">Admin</a>
             </div>
@@ -63,39 +69,39 @@
             <div class="container">
                 <h2 class="section-title">⭐ Produits Vedettes</h2>
                 <div class="products-grid">
-                    <div class="product-card" onclick="openOrderForm('Casque Audio Premium', '299€')">
+                    <div class="product-card" onclick="openOrderForm('Casque Audio Premium', 299)">
                         <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop" alt="Casque Audio">
                         <div class="product-info">
                             <h3>Casque Audio Premium</h3>
                             <p>Son haute qualité</p>
-                            <div class="product-price">299€</div>
+                            <div class="product-price" data-price="299">299€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Montre Connectée Pro', '450€')">
+                    <div class="product-card" onclick="openOrderForm('Montre Connectée Pro', 450)">
                         <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=300&h=200&fit=crop" alt="Montre">
                         <div class="product-info">
                             <h3>Montre Connectée Pro</h3>
                             <p>Technologie avancée</p>
-                            <div class="product-price">450€</div>
+                            <div class="product-price" data-price="450">450€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Laptop Business', '1299€')">
+                    <div class="product-card" onclick="openOrderForm('Laptop Business', 1299)">
                         <img src="https://images.unsplash.com/photo-1542393545-10f5cde2c810?w=300&h=200&fit=crop" alt="Laptop">
                         <div class="product-info">
                             <h3>Laptop Business</h3>
                             <p>Performance et mobilité</p>
-                            <div class="product-price">1299€</div>
+                            <div class="product-price" data-price="1299">1299€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Chaise Ergonomique', '350€')">
+                    <div class="product-card" onclick="openOrderForm('Chaise Ergonomique', 350)">
                         <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=200&fit=crop" alt="Chaise">
                         <div class="product-info">
                             <h3>Chaise Ergonomique</h3>
                             <p>Confort optimal</p>
-                            <div class="product-price">350€</div>
+                            <div class="product-price" data-price="350">350€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
@@ -140,57 +146,57 @@
             <div class="container">
                 <h2 class="section-title">📦 Nos Produits</h2>
                 <div class="products-grid">
-                    <div class="product-card" onclick="openOrderForm('Smartphone Pro', '799€')">
+                    <div class="product-card" onclick="openOrderForm('Smartphone Pro', 799)">
                         <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300&h=200&fit=crop" alt="Smartphone">
                         <div class="product-info">
                             <h3>Smartphone Pro</h3>
                             <p>Communication professionnelle</p>
-                            <div class="product-price">799€</div>
+                            <div class="product-price" data-price="799">799€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Équipement Bureau', '180€')">
+                    <div class="product-card" onclick="openOrderForm('Équipement Bureau', 180)">
                         <img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=300&h=200&fit=crop" alt="Bureau">
                         <div class="product-info">
                             <h3>Équipement Bureau</h3>
                             <p>Accessoires professionnels</p>
-                            <div class="product-price">180€</div>
+                            <div class="product-price" data-price="180">180€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Tablette Pro', '650€')">
+                    <div class="product-card" onclick="openOrderForm('Tablette Pro', 650)">
                         <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300&h=200&fit=crop" alt="Tablette">
                         <div class="product-info">
                             <h3>Tablette Pro</h3>
                             <p>Mobilité et performance</p>
-                            <div class="product-price">650€</div>
+                            <div class="product-price" data-price="650">650€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Caméra HD', '420€')">
+                    <div class="product-card" onclick="openOrderForm('Caméra HD', 420)">
                         <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=300&h=200&fit=crop" alt="Caméra">
                         <div class="product-info">
                             <h3>Caméra HD</h3>
                             <p>Qualité professionnelle</p>
-                            <div class="product-price">420€</div>
+                            <div class="product-price" data-price="420">420€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Écran 4K', '899€')">
+                    <div class="product-card" onclick="openOrderForm('Écran 4K', 899)">
                         <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=300&h=200&fit=crop" alt="Écran">
                         <div class="product-info">
                             <h3>Écran 4K</h3>
                             <p>Résolution ultra haute</p>
-                            <div class="product-price">899€</div>
+                            <div class="product-price" data-price="899">899€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Clavier Mécanique', '120€')">
+                    <div class="product-card" onclick="openOrderForm('Clavier Mécanique', 120)">
                         <img src="https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=300&h=200&fit=crop" alt="Clavier">
                         <div class="product-info">
                             <h3>Clavier Mécanique</h3>
                             <p>Frappe précise</p>
-                            <div class="product-price">120€</div>
+                            <div class="product-price" data-price="120">120€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
@@ -203,39 +209,39 @@
             <div class="container">
                 <h2 class="section-title">🆕 Nouveautés</h2>
                 <div class="products-grid">
-                    <div class="product-card" onclick="openOrderForm('Drone Pro', '1200€')">
+                    <div class="product-card" onclick="openOrderForm('Drone Pro', 1200)">
                         <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=300&h=200&fit=crop" alt="Drone">
                         <div class="product-info">
                             <h3>Drone Pro</h3>
                             <p>Technologie de pointe</p>
-                            <div class="product-price">1200€</div>
+                            <div class="product-price" data-price="1200">1200€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Imprimante 3D', '850€')">
+                    <div class="product-card" onclick="openOrderForm('Imprimante 3D', 850)">
                         <img src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=300&h=200&fit=crop" alt="Imprimante">
                         <div class="product-info">
                             <h3>Imprimante 3D</h3>
                             <p>Impression professionnelle</p>
-                            <div class="product-price">850€</div>
+                            <div class="product-price" data-price="850">850€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Robot Aspirateur', '380€')">
+                    <div class="product-card" onclick="openOrderForm('Robot Aspirateur', 380)">
                         <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop" alt="Robot">
                         <div class="product-info">
                             <h3>Robot Aspirateur</h3>
                             <p>Nettoyage automatique</p>
-                            <div class="product-price">380€</div>
+                            <div class="product-price" data-price="380">380€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
-                    <div class="product-card" onclick="openOrderForm('Enceinte Bluetooth', '180€')">
+                    <div class="product-card" onclick="openOrderForm('Enceinte Bluetooth', 180)">
                         <img src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=200&fit=crop" alt="Enceinte">
                         <div class="product-info">
                             <h3>Enceinte Bluetooth</h3>
                             <p>Son puissant et clair</p>
-                            <div class="product-price">180€</div>
+                            <div class="product-price" data-price="180">180€</div>
                             <button class="order-btn">Commander</button>
                         </div>
                     </div>
@@ -291,9 +297,42 @@
     </footer>
 
     <script>
+        // Taux de change EUR vers USD (approximatif)
+        const exchangeRate = 1.1;
+        let currentCurrency = 'EUR';
+
+        function changeCurrency() {
+            const currencySelect = document.getElementById('currencySelect');
+            const newCurrency = currencySelect.value;
+            
+            if (newCurrency === currentCurrency) return;
+            
+            const priceElements = document.querySelectorAll('.product-price');
+            
+            priceElements.forEach(priceEl => {
+                const basePrice = parseFloat(priceEl.getAttribute('data-price'));
+                let newPrice, symbol;
+                
+                if (newCurrency === 'USD') {
+                    newPrice = Math.round(basePrice * exchangeRate);
+                    symbol = '$';
+                } else {
+                    newPrice = basePrice;
+                    symbol = '€';
+                }
+                
+                priceEl.textContent = newPrice + symbol;
+            });
+            
+            currentCurrency = newCurrency;
+        }
+
         function openOrderForm(productName, productPrice) {
+            const currencySymbol = currentCurrency === 'EUR' ? '€' : '$';
+            const displayPrice = currentCurrency === 'EUR' ? productPrice : Math.round(productPrice * exchangeRate);
+            
             document.getElementById('productName').value = productName;
-            document.getElementById('productPrice').value = productPrice;
+            document.getElementById('productPrice').value = displayPrice + currencySymbol;
             document.getElementById('orderModal').style.display = 'block';
         }
 
@@ -303,7 +342,7 @@
 
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Commande envoyée avec succès !');
+            alert('Commande envoyée avec succès ! 🎉');
             closeOrderForm();
             this.reset();
         });
