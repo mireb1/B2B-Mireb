@@ -9,6 +9,7 @@ Une plateforme B2B moderne pour connecter les entreprises et faciliter les écha
 - Gestion des commandes et paiement à la réception
 - Formulaire de contact
 - Tableau de bord avec statistiques et graphiques
+- **NOUVEAU**: Système de base de données MongoDB pour un stockage durable des données
 
 ## Accès administration
 
@@ -20,25 +21,86 @@ Pour accéder à l'interface d'administration:
 
 ## Structure du projet
 
-Le site est entièrement statique avec:
+Le projet comporte deux parties principales:
 
+### Frontend
 - HTML pour la structure
 - CSS pour le style
-- JavaScript pour les fonctionnalités et la gestion de données côté client
+- JavaScript pour les interactions client
 
-Les données sont temporairement stockées dans le localStorage du navigateur.
+### Backend (NOUVEAU)
+- Node.js avec Express pour l'API REST
+- MongoDB pour le stockage durable des données
+- JWT pour l'authentification sécurisée
+- Architecture MVC (Modèles, Contrôleurs, Routes)
+
+## Configuration et installation
+
+### Prérequis
+- Node.js (v14+)
+- MongoDB (v4+)
+
+### Installation
+1. Cloner le dépôt
+   ```bash
+   git clone https://github.com/mireb1/B2B-Mireb.git
+   cd B2B-Mireb
+   ```
+
+2. Installer les dépendances du backend
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. Configurer les variables d'environnement
+   - Créer un fichier `.env` dans le dossier `backend` (un exemple est fourni dans `.env.example`)
+   - Définir les variables: `PORT`, `MONGODB_URI`, `JWT_SECRET`
+
+4. Initialiser le compte administrateur
+   ```bash
+   npm run init-admin
+   ```
+
+5. Démarrer le serveur
+   ```bash
+   npm run dev
+   ```
 
 ## Déploiement
 
-Le site est déployé sur GitHub Pages à l'adresse: https://mireb1.github.io/B2B-Mireb/
+### Frontend
+Le site frontend est déployé sur GitHub Pages à l'adresse: https://mireb1.github.io/B2B-Mireb/
 
-## Développement
+### Backend
+Pour déployer le backend sur un serveur:
+1. Configurer les variables d'environnement pour la production
+2. Exécuter `npm start` pour démarrer le serveur
+3. Options de déploiement recommandées:
+   - Heroku
+   - Render
+   - Railway
+   - VPS avec PM2
 
-Pour développer localement:
+## Documentation de l'API
 
-1. Cloner le dépôt
-2. Ouvrir les fichiers HTML dans votre navigateur
-3. Modifications les fichiers selon vos besoins
+L'API REST expose les endpoints suivants:
+
+- `/api/auth` - Authentification
+- `/api/products` - Gestion des produits
+- `/api/orders` - Gestion des commandes
+- `/api/customers` - Gestion des clients
+- `/api/messages` - Gestion des messages
+- `/api/dashboard` - Statistiques et activités
+
+## Migration depuis localStorage
+
+La version précédente utilisait localStorage pour stocker les données. Le nouveau système de base de données permet:
+- Un stockage permanent et sécurisé des données
+- La synchronisation entre plusieurs appareils
+- Une meilleure performance pour les grandes quantités de données
+- Des sauvegardes automatisées
+- Un accès API pour intégrations tierces
 
 ## License
 
