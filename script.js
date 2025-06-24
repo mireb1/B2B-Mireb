@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('clients', JSON.stringify([]));
     }
 
-    // Formulaire de contact
+    // Formulaire de contact (version unifiée)
     const contactForm = document.getElementById('contact-form');
     if(contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -107,13 +107,32 @@ document.addEventListener('DOMContentLoaded', function() {
             messages.push(newMessage);
             localStorage.setItem('messages', JSON.stringify(messages));
             
-            // Afficher confirmation
-            formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.';
-            formMessage.style.backgroundColor = '#4CAF50';
-            formMessage.style.color = 'white';
-            formMessage.style.padding = '10px';
-            formMessage.style.borderRadius = '5px';
-            contactForm.reset();
+            // Animation d'envoi
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+            submitButton.disabled = true;
+            
+            // Simuler délai puis afficher succès
+            setTimeout(() => {
+                contactForm.reset();
+                
+                // Afficher confirmation avec style moderne
+                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
+                formMessage.className = 'success';
+                
+                // Restaurer le bouton
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                
+                // Masquer le message après 5 secondes
+                setTimeout(() => {
+                    formMessage.innerHTML = '';
+                    formMessage.className = '';
+                }, 5000);
+                
+            }, 2000);
         });
     }
 
@@ -1113,45 +1132,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             initialiserTableauBord();
         }
-    }
-
-    // Gestion du formulaire de contact
-    const contactFormElement = document.getElementById('contact-form');
-    if (contactFormElement) {
-        contactFormElement.addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(contactFormElement);
-            const formMessage = document.getElementById('form-message');
-            
-            // Simulation d'envoi de formulaire
-            const submitButton = contactFormElement.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerHTML;
-            
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-            submitButton.disabled = true;
-            
-            // Simuler un délai d'envoi
-            setTimeout(() => {
-                // Réinitialiser le formulaire
-                contactFormElement.reset();
-                
-                // Afficher un message de succès
-                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
-                formMessage.className = 'success';
-                
-                // Restaurer le bouton
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                
-                // Masquer le message après 5 secondes
-                setTimeout(() => {
-                    formMessage.innerHTML = '';
-                    formMessage.className = '';
-                }, 5000);
-                
-            }, 2000); // Délai de 2 secondes pour simuler l'envoi
-        });
     }
 
     // Fonction pour faire défiler en douceur vers le formulaire de contact
