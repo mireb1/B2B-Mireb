@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Mireb Marketplace</title>
+    <title>Administration - Mireb Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -26,13 +26,14 @@
             <div class="login-container">
                 <form id="login-form">
                     <div class="form-group">
-                        <label for="admin-user"><i class="fas fa-user"></i> Utilisateur:</label>
-                        <input type="text" id="admin-user" value="admin" disabled>
+                        <label for="admin-user"><i class="fas fa-envelope"></i> Email:</label>
+                        <input type="email" id="admin-user" placeholder="Entrez votre email" required>
+                        <small>Email: mirebcommercial@gmail.com</small>
                     </div>
                     <div class="form-group">
                         <label for="admin-pass"><i class="fas fa-key"></i> Mot de passe:</label>
-                        <input type="password" id="admin-pass" required placeholder="Entrez le mot de passe">
-                        <small>Mot de passe par défaut: admin2025</small>
+                        <input type="password" id="admin-pass" required placeholder="Entrez votre mot de passe">
+                        <small>Mot de passe: Fiacre-19</small>
                     </div>
                     <button type="submit"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
                 </form>
@@ -60,66 +61,218 @@
                 <div class="stat-card">
                     <i class="fas fa-box-open fa-2x"></i>
                     <h3>Produits</h3>
-                    <p>6</p>
+                    <p id="product-count">6</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                    <h3>Revenus</h3>
+                    <p id="revenue">0 €</p>
                 </div>
             </div>
 
             <div class="admin-tabs">
-                <button class="tab-btn active" data-tab="orders"><i class="fas fa-list"></i> Commandes</button>
+                <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-home"></i> Tableau de bord</button>
+                <button class="tab-btn" data-tab="orders"><i class="fas fa-list"></i> Commandes</button>
+                <button class="tab-btn" data-tab="products"><i class="fas fa-box"></i> Produits</button>
+                <button class="tab-btn" data-tab="clients"><i class="fas fa-users"></i> Clients</button>
                 <button class="tab-btn" data-tab="messages"><i class="fas fa-envelope"></i> Messages</button>
                 <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> Paramètres</button>
             </div>
 
-            <div class="admin-tab-content active" id="orders-tab">
+            <div class="admin-tab-content active" id="dashboard-tab">
+                <h3>Aperçu général</h3>
+                <div class="dashboard-overview">
+                    <div class="chart-container">
+                        <h4>Commandes récentes</h4>
+                        <canvas id="orders-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Produits populaires</h4>
+                        <canvas id="products-chart"></canvas>
+                    </div>
+                </div>
+                <div class="recent-activity">
+                    <h4>Activité récente</h4>
+                    <ul id="activity-list">
+                        <!-- Activités récentes seront ajoutées dynamiquement -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="orders-tab">
                 <h3>Commandes récentes</h3>
                 <div class="table-controls">
                     <div class="search">
                         <input type="text" id="order-search" placeholder="Rechercher...">
                         <button id="search-btn"><i class="fas fa-search"></i></button>
                     </div>
-                    <button id="clear-orders" class="danger-btn"><i class="fas fa-trash"></i> Effacer les données</button>
+                    <div>
+                        <button id="export-orders" class="success-btn"><i class="fas fa-file-export"></i> Exporter</button>
+                        <button id="clear-orders" class="danger-btn"><i class="fas fa-trash"></i> Effacer</button>
+                    </div>
                 </div>
                 <table id="orders-table">
                     <thead>
                         <tr>
-                            <th>Nom</th>
+                            <th>ID</th>
+                            <th>Client</th>
                             <th>Téléphone</th>
-                            <th>Adresse</th>
                             <th>Produit</th>
+                            <th>Prix</th>
                             <th>Date</th>
+                            <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
                 <div id="no-orders-message">Aucune commande pour le moment.</div>
+                <div class="pagination" id="orders-pagination">
+                    <!-- Pagination sera ajoutée dynamiquement -->
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="products-tab">
+                <h3>Gestion des produits</h3>
+                <button id="add-product-btn" class="primary-btn"><i class="fas fa-plus"></i> Ajouter un produit</button>
+                
+                <div class="product-grid" id="admin-products">
+                    <!-- Liste des produits sera ajoutée dynamiquement -->
+                </div>
+
+                <div id="product-modal" class="modal" style="display:none;">
+                    <div class="modal-content large-modal">
+                        <span class="close-modal">&times;</span>
+                        <h3 id="product-modal-title">Ajouter un produit</h3>
+                        <form id="product-form">
+                            <input type="hidden" id="product-id">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-name">Nom du produit:</label>
+                                    <input type="text" id="product-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-category">Catégorie:</label>
+                                    <select id="product-category">
+                                        <option value="premium">Premium</option>
+                                        <option value="standard">Standard</option>
+                                        <option value="basic">Basique</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-price">Prix (€):</label>
+                                    <input type="number" id="product-price" step="0.01" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-stock">Stock:</label>
+                                    <input type="number" id="product-stock" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-desc">Description:</label>
+                                <textarea id="product-desc" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">URL de l'image:</label>
+                                <input type="text" id="product-image" placeholder="https://...">
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-product" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="clients-tab">
+                <h3>Liste des clients</h3>
+                <div class="table-controls">
+                    <div class="search">
+                        <input type="text" id="client-search" placeholder="Rechercher un client...">
+                        <button id="search-client-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <table id="clients-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Commandes</th>
+                            <th>Valeur totale</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="no-clients-message">Aucun client pour le moment.</div>
             </div>
 
             <div class="admin-tab-content" id="messages-tab">
                 <h3>Messages des clients</h3>
-                <p>Cette fonctionnalité sera bientôt disponible.</p>
+                <div class="message-list" id="admin-messages">
+                    <!-- Messages seront ajoutés dynamiquement -->
+                </div>
+                <div id="no-messages">Aucun message pour le moment.</div>
             </div>
 
             <div class="admin-tab-content" id="settings-tab">
                 <h3>Paramètres du site</h3>
                 <form id="settings-form">
-                    <div class="form-group">
-                        <label for="site-title">Titre du site:</label>
-                        <input type="text" id="site-title" value="Mireb Marketplace">
-                    </div>
-                    <div class="form-group">
-                        <label for="site-description">Description:</label>
-                        <textarea id="site-description">Votre plateforme B2B de confiance</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Paiement à la livraison:</label>
-                        <div class="toggle">
-                            <input type="checkbox" id="payment-toggle" checked>
-                            <label for="payment-toggle"></label>
+                    <div class="settings-section">
+                        <h4>Informations générales</h4>
+                        <div class="form-group">
+                            <label for="site-title">Titre du site:</label>
+                            <input type="text" id="site-title" value="Mireb Marketplace">
+                        </div>
+                        <div class="form-group">
+                            <label for="site-description">Description:</label>
+                            <textarea id="site-description">Votre plateforme B2B de confiance</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email de contact:</label>
+                            <input type="email" id="contact-email" value="contact@mireb-marketplace.com">
                         </div>
                     </div>
-                    <button type="submit">Enregistrer</button>
+
+                    <div class="settings-section">
+                        <h4>Options de paiement</h4>
+                        <div class="form-group">
+                            <label>Paiement à la livraison:</label>
+                            <div class="toggle">
+                                <input type="checkbox" id="payment-toggle" checked>
+                                <label for="payment-toggle"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h4>Options d'e-mail</h4>
+                        <div class="form-group">
+                            <label>Envoyer un e-mail après commande:</label>
+                            <div class="toggle">
+                                <input type="checkbox" id="order-email-toggle" checked>
+                                <label for="order-email-toggle"></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="primary-btn">Enregistrer les modifications</button>
                 </form>
+
+                <div class="settings-section backup-section">
+                    <h4>Sauvegarde et restauration</h4>
+                    <div class="backup-controls">
+                        <button id="backup-btn" class="secondary-btn"><i class="fas fa-download"></i> Télécharger une sauvegarde</button>
+                        <div class="file-upload">
+                            <label for="restore-file" class="secondary-btn"><i class="fas fa-upload"></i> Restaurer une sauvegarde</label>
+                            <input type="file" id="restore-file" accept=".json">
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
