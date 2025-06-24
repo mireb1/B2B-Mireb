@@ -635,7 +635,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         clientCountElement.textContent = clientsUniques.size;
-        revenueElement.textContent = revenuTotal.toFixed(2) + ' €';
+        revenueElement.textContent = revenuTotal.toFixed(2) + ' $';
     }
     
     // Fonction pour initialiser et mettre à jour le tableau de bord
@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${cmd.nom}</td>
                 <td>${cmd.tel}</td>
                 <td>${cmd.produit}</td>
-                <td>${cmd.prix ? cmd.prix + ' €' : 'N/A'}</td>
+                <td>${cmd.prix ? cmd.prix + ' $' : 'N/A'}</td>
                 <td>${cmd.date}</td>
                 <td>
                     <span class="status-badge status-${(cmd.status || 'En attente').toLowerCase().replace(/\\s+/g, '-')}">${cmd.status || 'En attente'}</span>
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Téléphone: ${commande.tel}
                     Adresse: ${commande.adresse}
                     Produit: ${commande.produit}
-                    Prix: ${commande.prix ? commande.prix + ' €' : 'N/A'}
+                    Prix: ${commande.prix ? commande.prix + ' $' : 'N/A'}
                     Date: ${commande.date}
                     Status: ${commande.status || 'En attente'}
                 `);
@@ -796,7 +796,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h4>${product.name}</h4>
                     <p>${product.description.substring(0, 80)}${product.description.length > 80 ? '...' : ''}</p>
                     <div class="product-card-info">
-                        <span class="price">${product.price.toFixed(2)} €</span>
+                        <span class="price">${product.price.toFixed(2)} $</span>
                         <span class="stock">Stock: ${product.stock}</span>
                     </div>
                     <div class="product-actions">
@@ -836,7 +836,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${client.email || 'N/A'}</td>
                 <td>${client.tel}</td>
                 <td>${client.commandes ? client.commandes.length : 0}</td>
-                <td>${client.valeurTotale ? client.valeurTotale.toFixed(2) + ' €' : '0,00 €'}</td>
+                <td>${client.valeurTotale ? client.valeurTotale.toFixed(2) + ' $' : '0,00 $'}</td>
                 <td>
                     <button class="action-btn view-client" title="Voir détails" data-id="${client.id}">
                         <i class="fas fa-eye"></i>
