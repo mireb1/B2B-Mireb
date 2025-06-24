@@ -3,68 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produits - B2B Mireb Marketplace</title>
+    <title>Produits - Mireb Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>B2B Mireb Marketplace</h1>
+        <h1>Mireb Marketplace</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="produits.html">Produits</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="produits.html"><i class="fas fa-shopping-bag"></i> Produits</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="products">
-            <h2>Nos produits</h2>
-            <div class="product-list">
-                <div class="product">
-                    <img src="assets/produit1.jpg" alt="Produit 1">
-                    <h4>Produit 1</h4>
-                    <p>Description du produit 1.</p>
-                    <span class="price">49,99 €</span>
-                    <button class="order-btn" data-produit="Produit 1">Commander</button>
-                </div>
-                <div class="product">
-                    <img src="assets/produit2.jpg" alt="Produit 2">
-                    <h4>Produit 2</h4>
-                    <p>Description du produit 2.</p>
-                    <span class="price">79,99 €</span>
-                    <button class="order-btn" data-produit="Produit 2">Commander</button>
-                </div>
-                <div class="product">
-                    <img src="assets/produit3.jpg" alt="Produit 3">
-                    <h4>Produit 3</h4>
-                    <p>Description du produit 3.</p>
-                    <span class="price">99,99 €</span>
-                    <button class="order-btn" data-produit="Produit 3">Commander</button>
-                </div>
+        <section class="hero" style="padding: 40px 20px;">
+            <h2>Catalogue de Produits</h2>
+            <p>Découvrez notre sélection de produits pour les professionnels</p>
+        </section>
+
+        <section class="product-categories">
+            <div class="category-filters">
+                <button class="filter-btn active" data-category="all">Tous les produits</button>
+                <button class="filter-btn" data-category="premium">Premium</button>
+                <button class="filter-btn" data-category="standard">Standard</button>
+                <button class="filter-btn" data-category="basic">Basique</button>
             </div>
-            <div id="order-modal" class="modal" style="display:none;">
-                <div class="modal-content">
-                    <span class="close-modal">&times;</span>
-                    <h3>Commande (Paiement à la réception)</h3>
-                    <form id="order-form">
-                        <input type="hidden" id="produit-commande" name="produit">
-                        <label for="nom">Nom :</label>
-                        <input type="text" id="nom" name="nom" required>
-                        <label for="tel">Téléphone :</label>
-                        <input type="tel" id="tel" name="tel" required>
-                        <label for="adresse">Adresse :</label>
-                        <input type="text" id="adresse" name="adresse" required>
-                        <button type="submit">Valider la commande</button>
-                    </form>
-                    <div id="order-message"></div>
+        </section>
+
+        <section class="products">
+            <div class="product-list">
+                <div class="product" data-category="premium">
+                    <div class="product-badge">Premium</div>
+                    <img src="assets/produit1.jpg" alt="Produit Premium" onerror="this.src='https://via.placeholder.com/300x200/3f51b5/ffffff?text=Produit+Premium'">
+                    <h4>Produit Premium Pro</h4>
+                    <p>Notre solution haut de gamme pour les grandes entreprises avec un support 24/7 et des fonctionnalités avancées.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="price">499,99 €</span>
+                    <button class="order-btn" data-produit="Produit Premium Pro">Commander</button>
+                </div>
+                <div class="product" data-category="premium">
+                    <div class="product-badge">Premium</div>
+                    <img src="assets/produit2.jpg" alt="Solution Business" onerror="this.src='https://via.placeholder.com/300x200/303f9f/ffffff?text=Solution+Business'">
+                    <h4>Solution Business Plus</h4>
+                    <p>Idéal pour les entreprises moyennes avec des besoins d'évolutivité et de personnalisation.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="price">349,99 €</span>
+                    <button class="order-btn" data-produit="Solution Business Plus">Commander</button>
+                </div>
+                <div class="product" data-category="standard">
+                    <div class="product-badge">Standard</div>
+                    <img src="assets/produit3.jpg" alt="Solution Business" onerror="this.src='https://via.placeholder.com/300x200/5c6bc0/ffffff?text=Solution+Standard'">
+                    <h4>Solution Business</h4>
+                    <p>Notre offre équilibrée pour les PME avec un bon rapport qualité-prix et des fonctionnalités essentielles.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <span class="price">299,99 €</span>
+                    <button class="order-btn" data-produit="Solution Business">Commander</button>
+                </div>
+                <div class="product" data-category="standard">
+                    <div class="product-badge">Standard</div>
+                    <img src="assets/produit4.jpg" alt="Pack Pro" onerror="this.src='https://via.placeholder.com/300x200/7986cb/ffffff?text=Pack+Pro'">
+                    <h4>Pack Professionnel</h4>
+                    <p>Un ensemble complet d'outils pour les professionnels indépendants et les petites équipes.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <span class="price">249,99 €</span>
+                    <button class="order-btn" data-produit="Pack Professionnel">Commander</button>
+                </div>
+                <div class="product" data-category="basic">
+                    <div class="product-badge">Basique</div>
+                    <img src="assets/produit5.jpg" alt="Pack Démarrage" onerror="this.src='https://via.placeholder.com/300x200/9fa8da/ffffff?text=Pack+Démarrage'">
+                    <h4>Pack Démarrage</h4>
+                    <p>La solution parfaite pour débuter avec un investissement minimal et les fonctionnalités essentielles.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <span class="price">199,99 €</span>
+                    <button class="order-btn" data-produit="Pack Démarrage">Commander</button>
+                </div>
+                <div class="product" data-category="basic">
+                    <div class="product-badge">Basique</div>
+                    <img src="assets/produit6.jpg" alt="Starter Kit" onerror="this.src='https://via.placeholder.com/300x200/c5cae9/ffffff?text=Starter+Kit'">
+                    <h4>Starter Kit</h4>
+                    <p>Notre offre d'entrée de gamme pour les startups et très petites entreprises.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <span class="price">149,99 €</span>
+                    <button class="order-btn" data-produit="Starter Kit">Commander</button>
                 </div>
             </div>
         </section>
+
+        <div id="order-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3>Commande (Paiement à la réception)</h3>
+                <form id="order-form">
+                    <input type="hidden" id="produit-commande" name="produit">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" required>
+                    <label for="tel">Téléphone :</label>
+                    <input type="tel" id="tel" name="tel" required>
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" id="adresse" name="adresse" required>
+                    <button type="submit">Valider la commande</button>
+                </form>
+                <div id="order-message"></div>
+            </div>
+        </div>
     </main>
     <footer>
-        <p>&copy; 2025 B2B Mireb. Tous droits réservés.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>À propos de Mireb</h4>
+                <p>Mireb Marketplace est la plateforme B2B leader pour la mise en relation des entreprises.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="produits.html">Produits</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2025 Mireb B2B Marketplace. Tous droits réservés.</p>
     </footer>
 </body>
 </html>

@@ -3,42 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - B2B Mireb Marketplace</title>
+    <title>Mireb Marketplace - Votre plateforme B2B de confiance</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>B2B Mireb Marketplace</h1>
+        <h1>Mireb Marketplace</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="produits.html">Produits</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="produits.html"><i class="fas fa-shopping-bag"></i> Produits</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section class="hero">
-            <h2>Bienvenue sur la marketplace B2B Mireb</h2>
-            <p>Votre plateforme de mise en relation commerciale.</p>
-            <a href="produits.html" class="cta">Voir les produits</a>
+            <h2>La plateforme B2B qui transforme vos affaires</h2>
+            <p>Mireb Marketplace connecte les entreprises entre elles pour faciliter les échanges commerciaux et favoriser le développement de votre activité.</p>
+            <a href="produits.html" class="cta">Explorer nos produits</a>
         </section>
-        <section class="testimonials">
-            <h3>Témoignages</h3>
-            <blockquote>"Grâce à Mireb, j'ai trouvé de nouveaux partenaires commerciaux !"</blockquote>
-            <cite>- Client satisfait</cite>
-        </section>
-        <section class="partners">
-            <h3>Nos partenaires</h3>
-            <div class="partner-logos">
-                <img src="assets/partner1.png" alt="Partenaire 1" />
-                <img src="assets/partner2.png" alt="Partenaire 2" />
+        
+        <section class="features">
+            <div class="feature">
+                <i class="fas fa-truck-moving fa-3x"></i>
+                <h3>Livraison rapide</h3>
+                <p>Recevez vos produits dans les meilleurs délais avec notre service de livraison optimisé.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-hand-holding-usd fa-3x"></i>
+                <h3>Paiement à la réception</h3>
+                <p>Commandez en toute confiance avec notre option de paiement à la livraison.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt fa-3x"></i>
+                <h3>Confiance et sécurité</h3>
+                <p>Tous nos vendeurs sont vérifiés pour garantir des transactions sécurisées.</p>
             </div>
         </section>
+
+        <section class="products">
+            <h3>Produits populaires</h3>
+            <div class="product-list">
+                <div class="product">
+                    <img src="assets/produit1.jpg" alt="Produit 1" onerror="this.src='https://via.placeholder.com/300x200/3f51b5/ffffff?text=Produit+1'">
+                    <h4>Produit Premium</h4>
+                    <p>Notre meilleure offre pour les professionnels exigeants.</p>
+                    <span class="price">499,99 €</span>
+                    <button class="order-btn" data-produit="Produit Premium">Commander</button>
+                </div>
+                <div class="product">
+                    <img src="assets/produit2.jpg" alt="Produit 2" onerror="this.src='https://via.placeholder.com/300x200/303f9f/ffffff?text=Produit+2'">
+                    <h4>Solution Business</h4>
+                    <p>Idéal pour les PME en développement.</p>
+                    <span class="price">299,99 €</span>
+                    <button class="order-btn" data-produit="Solution Business">Commander</button>
+                </div>
+                <div class="product">
+                    <img src="assets/produit3.jpg" alt="Produit 3" onerror="this.src='https://via.placeholder.com/300x200/5c6bc0/ffffff?text=Produit+3'">
+                    <h4>Pack Démarrage</h4>
+                    <p>Tout ce dont vous avez besoin pour commencer.</p>
+                    <span class="price">199,99 €</span>
+                    <button class="order-btn" data-produit="Pack Démarrage">Commander</button>
+                </div>
+            </div>
+            <div class="see-all">
+                <a href="produits.html" class="see-all-link">Voir tous les produits <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h3>Ce que nos clients disent</h3>
+            <div class="testimonial-slider">
+                <blockquote>"Mireb Marketplace a révolutionné notre façon de trouver des fournisseurs. Service impeccable !"</blockquote>
+                <cite>- Marie D., CEO de Tech Innovations</cite>
+            </div>
+        </section>
+
+        <section class="partners">
+            <h3>Ils nous font confiance</h3>
+            <div class="partner-logos">
+                <img src="assets/partner1.png" alt="Partenaire 1" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+1'">
+                <img src="assets/partner2.png" alt="Partenaire 2" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+2'">
+                <img src="assets/partner3.png" alt="Partenaire 3" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+3'">
+                <img src="assets/partner4.png" alt="Partenaire 4" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+4'">
+            </div>
+        </section>
+        
+        <div id="order-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3>Commande (Paiement à la réception)</h3>
+                <form id="order-form">
+                    <input type="hidden" id="produit-commande" name="produit">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" required>
+                    <label for="tel">Téléphone :</label>
+                    <input type="tel" id="tel" name="tel" required>
+                    <label for="adresse">Adresse :</label>
+                    <input type="text" id="adresse" name="adresse" required>
+                    <button type="submit">Valider la commande</button>
+                </form>
+                <div id="order-message"></div>
+            </div>
+        </div>
     </main>
     <footer>
-        <p>&copy; 2025 B2B Mireb. Tous droits réservés.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>À propos de Mireb</h4>
+                <p>Mireb Marketplace est la plateforme B2B leader pour la mise en relation des entreprises.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="produits.html">Produits</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2025 Mireb B2B Marketplace. Tous droits réservés.</p>
     </footer>
 </body>
 </html>

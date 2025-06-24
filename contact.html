@@ -3,38 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - B2B Mireb Marketplace</title>
+    <title>Contact - Mireb Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>B2B Mireb Marketplace</h1>
+        <h1>Mireb Marketplace</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="produits.html">Produits</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="produits.html"><i class="fas fa-shopping-bag"></i> Produits</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="contact">
+        <section class="hero" style="padding: 40px 20px;">
             <h2>Contactez-nous</h2>
-            <form id="contact-form">
-                <label for="nom">Nom :</label>
-                <input type="text" id="nom" name="nom" required>
-                <label for="email">Email :</label>
-                <input type="email" id="email" name="email" required>
-                <label for="message">Message :</label>
-                <textarea id="message" name="message" required></textarea>
-                <button type="submit">Envoyer</button>
-            </form>
-            <div id="form-message"></div>
+            <p>Notre équipe est à votre disposition pour répondre à toutes vos questions</p>
+        </section>
+
+        <section class="contact-info">
+            <div class="info-card">
+                <i class="fas fa-map-marker-alt fa-2x"></i>
+                <h3>Adresse</h3>
+                <p>123 Avenue Mireb<br>75008 Paris, France</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-phone fa-2x"></i>
+                <h3>Téléphone</h3>
+                <p>+33 (0)1 23 45 67 89</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-envelope fa-2x"></i>
+                <h3>Email</h3>
+                <p>contact@mireb-marketplace.com</p>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="contact-container">
+                <div class="contact-form-container">
+                    <h3>Envoyez-nous un message</h3>
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="nom"><i class="fas fa-user"></i> Nom</label>
+                            <input type="text" id="nom" name="nom" required placeholder="Votre nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="email" name="email" required placeholder="Votre adresse email">
+                        </div>
+                        <div class="form-group">
+                            <label for="sujet"><i class="fas fa-tag"></i> Sujet</label>
+                            <input type="text" id="sujet" name="sujet" required placeholder="Sujet de votre message">
+                        </div>
+                        <div class="form-group">
+                            <label for="message"><i class="fas fa-comment"></i> Message</label>
+                            <textarea id="message" name="message" required placeholder="Votre message..."></textarea>
+                        </div>
+                        <button type="submit"><i class="fas fa-paper-plane"></i> Envoyer</button>
+                    </form>
+                    <div id="form-message"></div>
+                </div>
+                <div class="map-container">
+                    <h3>Trouvez-nous</h3>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.142047342371!2d2.3002848156744205!3d48.87132857928921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66fc4a3e1fd3d%3A0x11889d583121efc!2sChamps-%C3%89lys%C3%A9es%2C%20Paris!5e0!3m2!1sfr!2sfr!4v1624534962931!5m2!1sfr!2sfr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq">
+            <h3>Questions fréquentes</h3>
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> Comment fonctionne le paiement à la réception ?</h4>
+                <p>Vous ne payez qu'une fois que vous avez reçu et vérifié votre commande. Notre livreur encaisse le montant lors de la livraison.</p>
+            </div>
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> Quel est le délai de livraison ?</h4>
+                <p>Nos délais de livraison varient entre 3 et 5 jours ouvrés selon votre localisation.</p>
+            </div>
+            <div class="faq-item">
+                <h4><i class="fas fa-question-circle"></i> Comment devenir vendeur sur Mireb Marketplace ?</h4>
+                <p>Contactez-nous via le formulaire ci-dessus en précisant votre demande, et notre équipe commerciale vous recontactera pour vous guider.</p>
+            </div>
         </section>
     </main>
     <footer>
-        <p>&copy; 2025 B2B Mireb. Tous droits réservés.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>À propos de Mireb</h4>
+                <p>Mireb Marketplace est la plateforme B2B leader pour la mise en relation des entreprises.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="produits.html">Produits</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2025 Mireb B2B Marketplace. Tous droits réservés.</p>
     </footer>
 </body>
 </html>

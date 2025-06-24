@@ -3,45 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - B2B Mireb Marketplace</title>
+    <title>Admin - Mireb Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>Administration</h1>
+        <h1>Administration Mireb</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="produits.html">Produits</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="admin.html">Admin</a></li>
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="produits.html"><i class="fas fa-shopping-bag"></i> Produits</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section class="admin-login" id="admin-login">
-            <h2>Connexion admin</h2>
-            <form id="login-form">
-                <label for="admin-pass">Mot de passe :</label>
-                <input type="password" id="admin-pass" required>
-                <button type="submit">Se connecter</button>
-            </form>
-            <div id="login-message"></div>
+            <h2><i class="fas fa-lock"></i> Connexion à l'administration</h2>
+            <div class="login-container">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="admin-user"><i class="fas fa-user"></i> Utilisateur:</label>
+                        <input type="text" id="admin-user" value="admin" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-pass"><i class="fas fa-key"></i> Mot de passe:</label>
+                        <input type="password" id="admin-pass" required placeholder="Entrez le mot de passe">
+                        <small>Mot de passe par défaut: admin2025</small>
+                    </div>
+                    <button type="submit"><i class="fas fa-sign-in-alt"></i> Se connecter</button>
+                </form>
+                <div id="login-message"></div>
+            </div>
         </section>
+
         <section class="admin-panel" id="admin-panel" style="display:none;">
-            <h2>Commandes reçues</h2>
-            <table id="orders-table">
-                <thead>
-                    <tr><th>Nom</th><th>Téléphone</th><th>Adresse</th><th>Produit</th><th>Date</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <button id="logout-btn">Déconnexion</button>
+            <div class="admin-header">
+                <h2><i class="fas fa-tachometer-alt"></i> Tableau de bord</h2>
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+            </div>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <h3>Commandes</h3>
+                    <p id="order-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users fa-2x"></i>
+                    <h3>Clients</h3>
+                    <p id="client-count">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-box-open fa-2x"></i>
+                    <h3>Produits</h3>
+                    <p>6</p>
+                </div>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" data-tab="orders"><i class="fas fa-list"></i> Commandes</button>
+                <button class="tab-btn" data-tab="messages"><i class="fas fa-envelope"></i> Messages</button>
+                <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> Paramètres</button>
+            </div>
+
+            <div class="admin-tab-content active" id="orders-tab">
+                <h3>Commandes récentes</h3>
+                <div class="table-controls">
+                    <div class="search">
+                        <input type="text" id="order-search" placeholder="Rechercher...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <button id="clear-orders" class="danger-btn"><i class="fas fa-trash"></i> Effacer les données</button>
+                </div>
+                <table id="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Téléphone</th>
+                            <th>Adresse</th>
+                            <th>Produit</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="no-orders-message">Aucune commande pour le moment.</div>
+            </div>
+
+            <div class="admin-tab-content" id="messages-tab">
+                <h3>Messages des clients</h3>
+                <p>Cette fonctionnalité sera bientôt disponible.</p>
+            </div>
+
+            <div class="admin-tab-content" id="settings-tab">
+                <h3>Paramètres du site</h3>
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="site-title">Titre du site:</label>
+                        <input type="text" id="site-title" value="Mireb Marketplace">
+                    </div>
+                    <div class="form-group">
+                        <label for="site-description">Description:</label>
+                        <textarea id="site-description">Votre plateforme B2B de confiance</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Paiement à la livraison:</label>
+                        <div class="toggle">
+                            <input type="checkbox" id="payment-toggle" checked>
+                            <label for="payment-toggle"></label>
+                        </div>
+                    </div>
+                    <button type="submit">Enregistrer</button>
+                </form>
+            </div>
         </section>
     </main>
     <footer>
-        <p>&copy; 2025 B2B Mireb. Tous droits réservés.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>À propos de Mireb</h4>
+                <p>Mireb Marketplace est la plateforme B2B leader pour la mise en relation des entreprises.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="produits.html">Produits</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2025 Mireb B2B Marketplace. Tous droits réservés.</p>
     </footer>
 </body>
 </html>
