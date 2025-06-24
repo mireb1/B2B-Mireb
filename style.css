@@ -57,3 +57,48 @@ footer {
     width: 100%;
     bottom: 0;
 }
+/* Modal commande */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    min-width: 300px;
+    position: relative;
+}
+.close-modal {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.admin-login, .admin-panel {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+#orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+#orders-table th, #orders-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+#orders-table th {
+    background: #3498db;
+    color: #fff;
+}

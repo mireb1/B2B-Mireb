@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - B2B Mireb Marketplace</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Administration</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="produits.html">Produits</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="admin-login" id="admin-login">
+            <h2>Connexion admin</h2>
+            <form id="login-form">
+                <label for="admin-pass">Mot de passe :</label>
+                <input type="password" id="admin-pass" required>
+                <button type="submit">Se connecter</button>
+            </form>
+            <div id="login-message"></div>
+        </section>
+        <section class="admin-panel" id="admin-panel" style="display:none;">
+            <h2>Commandes reçues</h2>
+            <table id="orders-table">
+                <thead>
+                    <tr><th>Nom</th><th>Téléphone</th><th>Adresse</th><th>Produit</th><th>Date</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button id="logout-btn">Déconnexion</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 B2B Mireb. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

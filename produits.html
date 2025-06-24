@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produits - B2B Mireb Marketplace</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>B2B Mireb Marketplace</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="produits.html">Produits</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="products">
+            <h2>Nos produits</h2>
+            <div class="product-list">
+                <div class="product">
+                    <img src="assets/produit1.jpg" alt="Produit 1">
+                    <h4>Produit 1</h4>
+                    <p>Description du produit 1.</p>
+                    <span class="price">49,99 €</span>
+                    <button class="order-btn" data-produit="Produit 1">Commander</button>
+                </div>
+                <div class="product">
+                    <img src="assets/produit2.jpg" alt="Produit 2">
+                    <h4>Produit 2</h4>
+                    <p>Description du produit 2.</p>
+                    <span class="price">79,99 €</span>
+                    <button class="order-btn" data-produit="Produit 2">Commander</button>
+                </div>
+                <div class="product">
+                    <img src="assets/produit3.jpg" alt="Produit 3">
+                    <h4>Produit 3</h4>
+                    <p>Description du produit 3.</p>
+                    <span class="price">99,99 €</span>
+                    <button class="order-btn" data-produit="Produit 3">Commander</button>
+                </div>
+            </div>
+            <div id="order-modal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3>Commande (Paiement à la réception)</h3>
+                    <form id="order-form">
+                        <input type="hidden" id="produit-commande" name="produit">
+                        <label for="nom">Nom :</label>
+                        <input type="text" id="nom" name="nom" required>
+                        <label for="tel">Téléphone :</label>
+                        <input type="tel" id="tel" name="tel" required>
+                        <label for="adresse">Adresse :</label>
+                        <input type="text" id="adresse" name="adresse" required>
+                        <button type="submit">Valider la commande</button>
+                    </form>
+                    <div id="order-message"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 B2B Mireb. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
