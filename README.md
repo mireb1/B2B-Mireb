@@ -1,7 +1,13 @@
 # 🏢 B2B-Mireb - Plateforme E-commerce B2B
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-blue?style=for-the-badge)](https://mireb1.github.io/B2B-Mireb/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/mireb1/B2B-Mireb)
+
+## 🌐 **Accès en ligne**
+🚀 **Site web** : [https://mireb1.github.io/B2B-Mireb/](https://mireb1.github.io/B2B-Mireb/)
+
 ## 📋 Description
-Plateforme e-commerce B2B complète pour la gestion des commandes professionnelles avec interface d'administration.
+Plateforme e-commerce B2B complète pour la gestion des commandes professionnelles avec interface d'administration moderne et élégante.
 
 ## 🚀 Fonctionnalités
 - ✅ Gestion des produits et catégories
