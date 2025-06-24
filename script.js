@@ -254,8 +254,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.onsubmit = function(e) {
             e.preventDefault();
-            const email = document.getElementById('admin-user').value;
-            const pass = document.getElementById('admin-pass').value;
+            const email = document.getElementById('admin-user').value.trim();
+            const pass = document.getElementById('admin-pass').value.trim();
+            
+            console.log('Tentative de connexion:', email, pass); // Debug
+            console.log('Identifiants attendus:', ADMIN_EMAIL, ADMIN_PASSWORD); // Debug
             
             if (email === ADMIN_EMAIL && pass === ADMIN_PASSWORD) {
                 adminLogin.style.display = 'none';
@@ -266,9 +269,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Ajouter activité
                 ajouterActivite('Administrateur connecté');
+                
+                loginMessage.textContent = 'Connexion réussie !';
+                loginMessage.style.color = 'green';
             } else {
-                loginMessage.textContent = 'Identifiants incorrects.';
+                loginMessage.textContent = `Identifiants incorrects. Email: ${email}, Mot de passe: ${pass}`;
                 loginMessage.style.color = 'red';
+                console.log('Connexion échouée'); // Debug
             }
         };
     }
@@ -1109,16 +1116,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Gestion du formulaire de contact
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
+    const contactFormElement = document.getElementById('contact-form');
+    if (contactFormElement) {
+        contactFormElement.addEventListener('submit', function(event) {
             event.preventDefault();
             
-            const formData = new FormData(contactForm);
+            const formData = new FormData(contactFormElement);
             const formMessage = document.getElementById('form-message');
             
             // Simulation d'envoi de formulaire
-            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const submitButton = contactFormElement.querySelector('button[type="submit"]');
             const originalText = submitButton.innerHTML;
             
             submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
@@ -1127,7 +1134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Simuler un délai d'envoi
             setTimeout(() => {
                 // Réinitialiser le formulaire
-                contactForm.reset();
+                contactFormElement.reset();
                 
                 // Afficher un message de succès
                 formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
