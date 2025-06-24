@@ -8,6 +8,7 @@
     <script src="js/api-service.js"></script>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Mise à jour design admin - 24 juin 2025 -->
 </head>
 <body>
     <header>
@@ -17,7 +18,7 @@
                 <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
                 <li><a href="produits.html"><i class="fas fa-shopping-bag"></i> Produits</a></li>
                 <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
-                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+                <li><a href="admin.html" class="active"><i class="fas fa-user-shield"></i> Admin</a></li>
             </ul>
         </nav>
     </header>
@@ -43,7 +44,10 @@
         <section class="admin-panel" id="admin-panel" style="display:none;">
             <div class="admin-header">
                 <h2><i class="fas fa-tachometer-alt"></i> Tableau de bord</h2>
-                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                    <span id="admin-date" style="font-size: 0.95rem; color: var(--text-light); font-style: italic;"></span>
+                    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
+                </div>
             </div>
             
             <div class="admin-stats">

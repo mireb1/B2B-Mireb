@@ -1107,4 +1107,99 @@ document.addEventListener('DOMContentLoaded', function() {
             initialiserTableauBord();
         }
     }
+
+    // Gestion du formulaire de contact
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(contactForm);
+            const formMessage = document.getElementById('form-message');
+            
+            // Simulation d'envoi de formulaire
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+            submitButton.disabled = true;
+            
+            // Simuler un délai d'envoi
+            setTimeout(() => {
+                // Réinitialiser le formulaire
+                contactForm.reset();
+                
+                // Afficher un message de succès
+                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
+                formMessage.className = 'success';
+                
+                // Restaurer le bouton
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                
+                // Masquer le message après 5 secondes
+                setTimeout(() => {
+                    formMessage.innerHTML = '';
+                    formMessage.className = '';
+                }, 5000);
+                
+            }, 2000); // Délai de 2 secondes pour simuler l'envoi
+        });
+    }
+
+    // Fonction pour faire défiler en douceur vers le formulaire de contact
+    const contactLinks = document.querySelectorAll('a[href="#contact-form"]');
+    contactLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('contact-form');
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Animation d'entrée pour les cartes d'information
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observer les cartes d'information
+    const infoCards = document.querySelectorAll('.info-card');
+    infoCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+
+    // Observer les éléments FAQ
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(30px)';
+        item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(item);
+    });
+    
+    // Affichage dynamique de la date de publication/mise à jour dans l'admin
+    const adminDate = document.getElementById('admin-date');
+    if (adminDate) {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        adminDate.textContent = `Mis à jour le ${now.toLocaleDateString('fr-FR', options)}`;
+    }
 });
