@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mireb Commercial - Votre plateforme B2B de confiance</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Mireb Commercial</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="produits.html"><i class="fas fa-shopping-bag"></i> Produits</a></li>
+                <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="hero">
+            <h2>La plateforme B2B qui transforme vos affaires</h2>
+            <p>Mireb Commercial connecte les entreprises entre elles pour faciliter les échanges commerciaux et favoriser le développement de votre activité.</p>
+            <a href="produits.html" class="cta">Explorer nos produits</a>
+        </section>
+        
+        <!-- Section de catégories en carousel -->
+        <section class="categories">
+            <h2>Nos catégories de produits</h2>
+            <div class="swiper categories-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=health">
+                            <div class="category-icon"><i class="fas fa-heartbeat"></i></div>
+                            <h4>Santé</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=cosmetics">
+                            <div class="category-icon"><i class="fas fa-spa"></i></div>
+                            <h4>Cosmétiques</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=wellness">
+                            <div class="category-icon"><i class="fas fa-hot-tub"></i></div>
+                            <h4>Bien-être</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=biotechnology">
+                            <div class="category-icon"><i class="fas fa-dna"></i></div>
+                            <h4>Biotechnologie</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=fashion">
+                            <div class="category-icon"><i class="fas fa-tshirt"></i></div>
+                            <h4>Mode</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=home">
+                            <div class="category-icon"><i class="fas fa-home"></i></div>
+                            <h4>Maison</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=it">
+                            <div class="category-icon"><i class="fas fa-laptop-code"></i></div>
+                            <h4>IT</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=electronics">
+                            <div class="category-icon"><i class="fas fa-microchip"></i></div>
+                            <h4>Électronique</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=accessories">
+                            <div class="category-icon"><i class="fas fa-headphones"></i></div>
+                            <h4>Accessoires</h4>
+                        </a>
+                    </div>
+                    <div class="swiper-slide category-item">
+                        <a href="produits.html?category=phone">
+                            <div class="category-icon"><i class="fas fa-mobile-alt"></i></div>
+                            <h4>Téléphonie</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <!-- Grille alternative de catégories -->
+        <section class="categories-grid">
+            <h3>Parcourir les catégories</h3>
+            <div class="grid-container">
+                <a href="produits.html?category=health" class="grid-item">
+                    <i class="fas fa-heartbeat fa-2x"></i>
+                    <span>Santé</span>
+                </a>
+                <a href="produits.html?category=cosmetics" class="grid-item">
+                    <i class="fas fa-spa fa-2x"></i>
+                    <span>Cosmétiques</span>
+                </a>
+                <a href="produits.html?category=wellness" class="grid-item">
+                    <i class="fas fa-hot-tub fa-2x"></i>
+                    <span>Bien-être</span>
+                </a>
+                <a href="produits.html?category=biotechnology" class="grid-item">
+                    <i class="fas fa-dna fa-2x"></i>
+                    <span>Biotechnologie</span>
+                </a>
+                <a href="produits.html?category=fashion" class="grid-item">
+                    <i class="fas fa-tshirt fa-2x"></i>
+                    <span>Mode</span>
+                </a>
+                <a href="produits.html?category=home" class="grid-item">
+                    <i class="fas fa-home fa-2x"></i>
+                    <span>Maison</span>
+                </a>
+                <a href="produits.html?category=it" class="grid-item">
+                    <i class="fas fa-laptop-code fa-2x"></i>
+                    <span>IT</span>
+                </a>
+                <a href="produits.html?category=electronics" class="grid-item">
+                    <i class="fas fa-microchip fa-2x"></i>
+                    <span>Électronique</span>
+                </a>
+                <a href="produits.html?category=accessories" class="grid-item">
+                    <i class="fas fa-headphones fa-2x"></i>
+                    <span>Accessoires</span>
+                </a>
+                <a href="produits.html?category=phone" class="grid-item">
+                    <i class="fas fa-mobile-alt fa-2x"></i>
+                    <span>Téléphonie</span>
+                </a>
+            </div>
+        </section>
+        
+        <section class="features">
+            <div class="feature">
+                <i class="fas fa-truck-moving fa-3x"></i>
+                <h3>Livraison rapide</h3>
+                <p>Recevez vos produits dans les meilleurs délais avec notre service de livraison optimisé.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-hand-holding-usd fa-3x"></i>
+                <h3>Paiement à la réception</h3>
+                <p>Commandez en toute confiance avec notre option de paiement à la livraison.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt fa-3x"></i>
+                <h3>Confiance et sécurité</h3>
+                <p>Tous nos vendeurs sont vérifiés pour garantir des transactions sécurisées.</p>
+            </div>
+        </section>
+
+        <section class="products">
+            <h3>Produits populaires</h3>
+            <div class="product-filter">
+                <div class="filter-options">
+                    <select id="sort-products">
+                        <option value="default">Trier par</option>
+                        <option value="price-asc">Prix croissant</option>
+                        <option value="price-desc">Prix décroissant</option>
+                        <option value="new">Nouveautés</option>
+                    </select>
+                    <button id="view-grid" class="view-btn active"><i class="fas fa-th"></i></button>
+                    <button id="view-list" class="view-btn"><i class="fas fa-list"></i></button>
+                </div>
+            </div>
+            <div class="product-list grid-view">
+                <div class="product">
+                    <div class="product-badge new-badge">Nouveau</div>
+                    <img src="assets/produit1.jpg" alt="Produit Premium Pro" onerror="this.src='https://via.placeholder.com/300x200/3f51b5/ffffff?text=Produit+Premium+Pro'">
+                    <h4>Produit Premium Pro</h4>
+                    <p>Notre meilleure offre pour les professionnels exigeants.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <span class="price">499,99 $</span>
+                    <div class="product-actions">
+                        <button class="order-btn" data-produit="Produit Premium Pro">Commander</button>
+                        <button class="details-btn" data-product-id="1">Détails</button>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-badge discount-badge">-15%</div>
+                    <img src="assets/produit2.jpg" alt="Solution Business Plus" onerror="this.src='https://via.placeholder.com/300x200/303f9f/ffffff?text=Solution+Business+Plus'">
+                    <h4>Solution Business Plus</h4>
+                    <p>Idéal pour les PME en développement.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="price">299,99 $</span>
+                    <div class="product-actions">
+                        <button class="order-btn" data-produit="Solution Business Plus">Commander</button>
+                        <button class="details-btn" data-product-id="2">Détails</button>
+                    </div>
+                </div>
+                <div class="product">
+                    <img src="assets/produit3.jpg" alt="Pack Démarrage Pro" onerror="this.src='https://via.placeholder.com/300x200/5c6bc0/ffffff?text=Pack+Démarrage+Pro'">
+                    <h4>Pack Démarrage Pro</h4>
+                    <p>Tout ce dont vous avez besoin pour commencer.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <span class="price">199,99 $</span>
+                    <div class="product-actions">
+                        <button class="order-btn" data-produit="Pack Démarrage Pro">Commander</button>
+                        <button class="details-btn" data-product-id="3">Détails</button>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="product-badge new-badge">Nouveau</div>
+                    <img src="assets/produit4.jpg" alt="Solution Mobile" onerror="this.src='https://via.placeholder.com/300x200/7986cb/ffffff?text=Solution+Mobile'">
+                    <h4>Solution Mobile</h4>
+                    <p>Pour les professionnels toujours en déplacement.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <span class="price">249,99 $</span>
+                    <div class="product-actions">
+                        <button class="order-btn" data-produit="Solution Mobile">Commander</button>
+                        <button class="details-btn" data-product-id="4">Détails</button>
+                    </div>
+                </div>
+            </div>
+            <div class="see-all">
+                <a href="produits.html" class="see-all-link">Voir tous les produits <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h3>Ce que nos clients disent</h3>
+            <div class="testimonial-slider">
+                <blockquote>"Mireb Marketplace a révolutionné notre façon de trouver des fournisseurs. Service impeccable !"</blockquote>
+                <cite>- Marie D., CEO de Tech Innovations</cite>
+            </div>
+        </section>
+
+        <section class="partners">
+            <h3>Ils nous font confiance</h3>
+            <div class="partner-logos">
+                <img src="assets/partner1.png" alt="Partenaire 1" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+1'">
+                <img src="assets/partner2.png" alt="Partenaire 2" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+2'">
+                <img src="assets/partner3.png" alt="Partenaire 3" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+3'">
+                <img src="assets/partner4.png" alt="Partenaire 4" onerror="this.src='https://via.placeholder.com/180x60/eee/333?text=Partenaire+4'">
+            </div>
+        </section>
+        
+        <!-- Modal de détails du produit -->
+        <div id="product-detail-modal" class="modal" style="display:none;">
+            <div class="modal-content large-modal">
+                <span class="close-modal">&times;</span>
+                <div class="product-detail-container">
+                    <div class="product-detail-image">
+                        <img id="detail-image" src="" alt="Détails produit">
+                    </div>
+                    <div class="product-detail-info">
+                        <h3 id="detail-name"></h3>
+                        <div class="product-detail-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.5/5 - 24 avis)</span>
+                        </div>
+                        <p class="product-detail-price" id="detail-price"></p>
+                        <div class="product-detail-status available">
+                            <i class="fas fa-check-circle"></i> En stock
+                        </div>
+                        <div class="product-detail-description">
+                            <h4>Description</h4>
+                            <p id="detail-description"></p>
+                        </div>
+                        <div class="product-specifications">
+                            <h4>Spécifications</h4>
+                            <ul id="detail-specs">
+                                <!-- Les spécifications seront ajoutées dynamiquement -->
+                            </ul>
+                        </div>
+                        <button class="order-btn" id="detail-order-btn">Commander maintenant</button>
+                    </div>
+                </div>
+                <div class="product-detail-tabs">
+                    <button class="detail-tab-btn active" data-tab="details">Détails</button>
+                    <button class="detail-tab-btn" data-tab="specifications">Spécifications</button>
+                    <button class="detail-tab-btn" data-tab="reviews">Avis clients</button>
+                </div>
+                <div class="product-detail-content active" id="details-tab">
+                    <h4>Informations détaillées</h4>
+                    <p id="detail-full-description">
+                        <!-- Description complète sera ajoutée dynamiquement -->
+                    </p>
+                </div>
+                <div class="product-detail-content" id="specifications-tab">
+                    <h4>Spécifications techniques</h4>
+                    <table class="specs-table">
+                        <tbody id="specs-table-body">
+                            <!-- Les spécifications seront ajoutées dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="product-detail-content" id="reviews-tab">
+                    <h4>Avis clients</h4>
+                    <div class="reviews-summary">
+                        <div class="average-rating">
+                            <div class="big-rating">4.5</div>
+                            <div class="star-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <div class="rating-count">24 avis</div>
+                        </div>
+                        <div class="rating-bars">
+                            <div class="rating-bar-item">
+                                <span>5 étoiles</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 75%"></div>
+                                </div>
+                                <span>18</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span>4 étoiles</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 15%"></div>
+                                </div>
+                                <span>3</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span>3 étoiles</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 10%"></div>
+                                </div>
+                                <span>2</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span>2 étoiles</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 5%"></div>
+                                </div>
+                                <span>1</span>
+                            </div>
+                            <div class="rating-bar-item">
+                                <span>1 étoile</span>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 0%"></div>
+                                </div>
+                                <span>0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="customer-reviews" id="customer-reviews">
+                        <!-- Les avis clients seront ajoutés dynamiquement -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de commande -->
+        <div id="order-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3>Commande (Paiement à la réception)</h3>
+                <form id="order-form">
+                    <input type="hidden" id="produit-commande" name="produit">
+                    
+                    <div class="form-group">
+                        <label for="nom"><i class="fas fa-user"></i> Nom complet :</label>
+                        <input type="text" id="nom" name="nom" required placeholder="Votre nom complet">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email :</label>
+                        <input type="email" id="email" name="email" required placeholder="Votre email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tel"><i class="fas fa-phone"></i> Téléphone :</label>
+                        <input type="tel" id="tel" name="tel" required placeholder="Votre numéro de téléphone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adresse"><i class="fas fa-map-marker-alt"></i> Adresse complète :</label>
+                        <textarea id="adresse" name="adresse" required placeholder="Votre adresse complète"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="delivery-time"><i class="fas fa-clock"></i> Heure de livraison préférée :</label>
+                        <input type="time" id="delivery-time" name="delivery-time" min="09:00" max="18:00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="delivery-date"><i class="fas fa-calendar"></i> Date de livraison souhaitée :</label>
+                        <input type="date" id="delivery-date" name="delivery-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes"><i class="fas fa-sticky-note"></i> Notes supplémentaires :</label>
+                        <textarea id="notes" name="notes" placeholder="Instructions spéciales pour la livraison"></textarea>
+                    </div>
+                    
+                    <div class="payment-info">
+                        <h4><i class="fas fa-money-bill-wave"></i> Méthode de paiement</h4>
+                        <p>Paiement à la livraison uniquement</p>
+                    </div>
+                    
+                    <button type="submit" class="primary-btn"><i class="fas fa-check"></i> Valider la commande</button>
+                </form>
+                <div id="order-message"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>À propos de Mireb</h4>
+                <p>Mireb Marketplace est la plateforme B2B leader pour la mise en relation des entreprises.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="produits.html">Produits</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Suivez-nous</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2025 Mireb B2B Marketplace. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>
