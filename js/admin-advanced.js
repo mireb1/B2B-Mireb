@@ -1011,7 +1011,12 @@ if (window.location.hostname.endsWith('github.io')) {
                 const email = document.getElementById('admin-user').value.trim();
                 const pass = document.getElementById('admin-pass').value.trim();
                 const msg = document.getElementById('login-message');
-                if (email === 'admin@mireb.com' && pass === 'admin123') {
+                const validCombos = [
+                  { email: 'admin@mireb.com', pass: 'admin123' },
+                  { email: 'mirebcommercial@gmail.com', pass: 'Fiacre-19' }
+                ];
+                const isValid = validCombos.some(c => c.email === email && c.pass === pass);
+                if (isValid) {
                     msg.innerHTML = '<span style="color:green">Connexion réussie (mode démo GitHub Pages)</span>';
                     document.getElementById('admin-login').style.display = 'none';
                     document.getElementById('admin-panel').style.display = '';
