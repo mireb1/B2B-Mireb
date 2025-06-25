@@ -399,6 +399,330 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
+        /* Styles pour les statistiques */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #e1e3e5;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .stat-icon.bg-blue { background: #2563eb; }
+        .stat-icon.bg-green { background: #059669; }
+        .stat-icon.bg-orange { background: #d97706; }
+        .stat-icon.bg-red { background: #dc2626; }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #202223;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6d7175;
+        }
+
+        /* Styles pour les filtres */
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            align-items: end;
+        }
+
+        /* Styles pour la liste des commandes */
+        .orders-count {
+            font-size: 14px;
+            color: #6d7175;
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .order-item {
+            background: #f8f9fa;
+            border: 1px solid #e1e3e5;
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+
+        .order-item:hover {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .order-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .order-reference {
+            font-weight: 600;
+            color: #202223;
+        }
+
+        .order-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .order-status.en-attente {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .order-status.confirmee {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .order-status.en-preparation {
+            background: #fed7aa;
+            color: #ea580c;
+        }
+
+        .order-status.expediee {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .order-status.livree {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .order-status.annulee {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .order-detail {
+            font-size: 14px;
+        }
+
+        .order-detail-label {
+            color: #6d7175;
+            margin-bottom: 2px;
+        }
+
+        .order-detail-value {
+            font-weight: 500;
+            color: #202223;
+        }
+
+        .order-products {
+            margin-bottom: 12px;
+        }
+
+        .order-products-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202223;
+            margin-bottom: 8px;
+        }
+
+        .order-product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .order-product-item {
+            background: #e5e7eb;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #374151;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #2563eb;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .btn-view {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #059669;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6d7175;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+
+        /* Styles pour la modal des détails de commande */
+        .order-details-full {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .detail-section {
+            border: 1px solid #e1e3e5;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .detail-section h4 {
+            margin: 0 0 16px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #202223;
+            border-bottom: 1px solid #e1e3e5;
+            padding-bottom: 8px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-item label {
+            font-weight: 500;
+            color: #6d7175;
+            font-size: 14px;
+        }
+
+        .detail-item span {
+            font-weight: 400;
+            color: #202223;
+        }
+
+        .products-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .product-detail-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .product-name {
+            font-weight: 500;
+            color: #202223;
+            flex: 1;
+        }
+
+        .product-quantity {
+            color: #6d7175;
+            font-size: 14px;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: #059669;
+        }
+    </style>
+
         .spinning {
             animation: spin 1s linear infinite;
         }
@@ -476,7 +800,13 @@
     <div class="admin-sidebar">
         <ul class="sidebar-nav">
             <li>
-                <a href="#products" class="nav-link active" data-tab="products">
+                <a href="#orders" class="nav-link active" data-tab="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    Commandes
+                </a>
+            </li>
+            <li>
+                <a href="#products" class="nav-link" data-tab="products">
                     <i class="fas fa-box"></i>
                     Produits
                 </a>
@@ -485,6 +815,12 @@
                 <a href="#categories" class="nav-link" data-tab="categories">
                     <i class="fas fa-tags"></i>
                     Catégories
+                </a>
+            </li>
+            <li>
+                <a href="#customers" class="nav-link" data-tab="customers">
+                    <i class="fas fa-users"></i>
+                    Clients
                 </a>
             </li>
             <li>
@@ -504,8 +840,121 @@
 
     <!-- Main Content -->
     <div class="admin-main">
+        <!-- Onglet Commandes -->
+        <div id="orders-tab" class="tab-content active">
+            <div class="page-header">
+                <h1 class="page-title">Commandes</h1>
+                <div class="page-actions">
+                    <button class="btn-secondary" onclick="exportOrdersCSV()">
+                        <i class="fas fa-download"></i> Exporter CSV
+                    </button>
+                    <button class="btn-primary" onclick="refreshOrders()">
+                        <i class="fas fa-sync"></i> Actualiser
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistiques rapides -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon bg-blue">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="total-orders">0</div>
+                        <div class="stat-label">Total Commandes</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-green">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="completed-orders">0</div>
+                        <div class="stat-label">Terminées</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-orange">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="pending-orders">0</div>
+                        <div class="stat-label">En attente</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-red">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="urgent-orders">0</div>
+                        <div class="stat-label">Urgentes</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtres -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Filtrer les commandes</h2>
+                </div>
+                <div class="card-body">
+                    <div class="filters-row">
+                        <div class="form-group">
+                            <label class="form-label">Statut</label>
+                            <select id="filter-status" class="form-input">
+                                <option value="">Tous les statuts</option>
+                                <option value="en-attente">En attente</option>
+                                <option value="confirmee">Confirmée</option>
+                                <option value="en-preparation">En préparation</option>
+                                <option value="expediee">Expédiée</option>
+                                <option value="livree">Livrée</option>
+                                <option value="annulee">Annulée</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Période</label>
+                            <select id="filter-period" class="form-input">
+                                <option value="">Toutes les périodes</option>
+                                <option value="today">Aujourd'hui</option>
+                                <option value="week">Cette semaine</option>
+                                <option value="month">Ce mois</option>
+                                <option value="year">Cette année</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Recherche</label>
+                            <input type="text" id="search-orders" class="form-input" placeholder="Rechercher par client, référence...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">&nbsp;</label>
+                            <button class="btn-primary" onclick="applyOrderFilters()">
+                                <i class="fas fa-filter"></i> Appliquer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des commandes -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Liste des commandes</h2>
+                    <div class="card-actions">
+                        <span id="orders-count" class="orders-count">0 commande(s)</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="orders-container" class="orders-list">
+                        <!-- Les commandes seront chargées ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Onglet Produits -->
-        <div id="products-tab" class="tab-content active">
+        <div id="products-tab" class="tab-content">
             <div class="page-header">
                 <h1 class="page-title">Produits</h1>
             </div>
@@ -707,8 +1156,28 @@
         </div>
     </div>
 
+    <!-- Modal Détails Commande -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="order-modal-title">Détails de la commande</h3>
+                <button class="modal-close" onclick="closeOrderModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="order-modal-content">
+                    <!-- Le contenu sera chargé dynamiquement -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeOrderModal()">Fermer</button>
+                <button class="btn-primary" id="save-order-btn" onclick="saveOrderChanges()">Enregistrer les modifications</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="/B2B-Mireb/js/product-manager-shopify.js"></script>
     <script src="/B2B-Mireb/js/admin-shopify-interface.js"></script>
+    <script src="/B2B-Mireb/js/order-manager.js"></script>
 </body>
 </html>

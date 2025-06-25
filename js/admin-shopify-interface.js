@@ -134,11 +134,19 @@ class ShopifyAdminInterface {
     // Charger les données d'un onglet
     loadTabData(tabId) {
         switch(tabId) {
+            case 'orders':
+                if (typeof displayOrdersInAdmin === 'function') {
+                    displayOrdersInAdmin();
+                }
+                break;
             case 'products':
                 this.loadProducts();
                 break;
             case 'categories':
                 this.loadCategories();
+                break;
+            case 'customers':
+                // TODO: Charger les clients
                 break;
             case 'import-export':
             case 'settings':

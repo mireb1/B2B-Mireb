@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Commandes - B2B Mireb</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f6f6f7;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .test-card {
+            border: 1px solid #e1e3e5;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .test-card h3 {
+            margin-top: 0;
+            color: #202223;
+        }
+        .btn {
+            background: #008060;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #00684a;
+        }
+        .btn-danger {
+            background: #dc2626;
+        }
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .order-item {
+            background: #f8f9fa;
+            border: 1px solid #e1e3e5;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .order-summary {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 6px;
+        }
+        .quick-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .quick-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .quick-links a:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-shopping-cart"></i> Test des Commandes B2B Mireb</h1>
+            <p>Testez la gestion des commandes et la synchronisation avec l'interface admin</p>
+        </div>
+
+        <div class="test-grid">
+            <!-- Simulation de nouvelles commandes -->
+            <div class="test-card">
+                <h3><i class="fas fa-plus-circle"></i> Simuler des Commandes</h3>
+                <p>Créer des commandes de test pour vérifier l'interface admin</p>
+                
+                <button class="btn" onclick="createSampleOrder()">
+                    <i class="fas fa-plus"></i> Commande Simple
+                </button>
+                
+                <button class="btn" onclick="createMultipleOrders()">
+                    <i class="fas fa-list"></i> 5 Commandes Test
+                </button>
+                
+                <button class="btn" onclick="createUrgentOrder()">
+                    <i class="fas fa-exclamation-triangle"></i> Commande Urgente
+                </button>
+                
+                <div id="creation-status"></div>
+            </div>
+
+            <!-- Gestion des commandes existantes -->
+            <div class="test-card">
+                <h3><i class="fas fa-cog"></i> Gestion des Commandes</h3>
+                <p>Gérer les commandes existantes</p>
+                
+                <button class="btn" onclick="viewAllOrders()">
+                    <i class="fas fa-eye"></i> Voir toutes les commandes
+                </button>
+                
+                <button class="btn" onclick="exportOrdersTest()">
+                    <i class="fas fa-download"></i> Exporter CSV
+                </button>
+                
+                <button class="btn btn-danger" onclick="clearAllOrders()">
+                    <i class="fas fa-trash"></i> Vider toutes les commandes
+                </button>
+                
+                <div id="management-status"></div>
+            </div>
+        </div>
+
+        <!-- Résumé des commandes -->
+        <div class="order-summary">
+            <h3><i class="fas fa-chart-bar"></i> Résumé des Commandes</h3>
+            <div id="orders-summary">
+                <p>Chargement des données...</p>
+            </div>
+        </div>
+
+        <!-- Liens rapides -->
+        <div class="quick-links">
+            <a href="admin-shopify.html" target="_blank">
+                <i class="fas fa-tools"></i> Interface Admin
+            </a>
+            <a href="index.html" target="_blank">
+                <i class="fas fa-home"></i> Page d'accueil
+            </a>
+            <a href="test-sync.html" target="_blank">
+                <i class="fas fa-sync"></i> Test de Sync
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Charger les commandes existantes au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOrdersSummary();
+        });
+
+        // Créer une commande d'exemple
+        function createSampleOrder() {
+            const sampleOrder = {
+                id: 'CMD' + Date.now(),
+                customerName: 'Mohammed Alami',
+                customerPhone: '+212 6 12 34 56 78',
+                customerAddress: 'Rue Hassan II, Casablanca',
+                product: 'Produit Test - ' + new Date().toLocaleTimeString(),
+                price: Math.floor(Math.random() * 1000) + 100,
+                date: new Date().toLocaleString(),
+                status: 'en-attente',
+                paymentMethod: 'cash_on_delivery',
+                notes: 'Commande de test créée automatiquement'
+            };
+
+            // Sauvegarder la commande
+            let orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+            orders.push(sampleOrder);
+            localStorage.setItem('commandes', JSON.stringify(orders));
+
+            // Déclencher l'événement de nouvelle commande
+            window.dispatchEvent(new CustomEvent('newOrderReceived', {
+                detail: sampleOrder
+            }));
+
+            showStatus('creation-status', 'Commande créée avec succès !', 'success');
+            updateOrdersSummary();
+        }
+
+        // Créer plusieurs commandes d'exemple
+        function createMultipleOrders() {
+            const sampleCustomers = [
+                { name: 'Ahmed Benali', phone: '+212 6 11 22 33 44', address: 'Hay Riad, Rabat' },
+                { name: 'Fatima Zahra', phone: '+212 6 55 66 77 88', address: 'Maarif, Casablanca' },
+                { name: 'Omar Hassani', phone: '+212 6 99 88 77 66', address: 'Gueliz, Marrakech' },
+                { name: 'Aicha Kadiri', phone: '+212 6 44 33 22 11', address: 'Centre-ville, Fès' },
+                { name: 'Youssef Bennani', phone: '+212 6 77 88 99 00', address: 'Plateau, Agadir' }
+            ];
+
+            const sampleProducts = [
+                'Ordinateur portable HP',
+                'Smartphone Samsung Galaxy',
+                'Imprimante Canon',
+                'Tablette iPad',
+                'Écran Dell 24 pouces'
+            ];
+
+            const statuses = ['en-attente', 'confirmee', 'en-preparation', 'expediee'];
+
+            let orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+
+            for (let i = 0; i < 5; i++) {
+                const customer = sampleCustomers[i];
+                const product = sampleProducts[i];
+                
+                const order = {
+                    id: 'CMD' + (Date.now() + i),
+                    customerName: customer.name,
+                    customerPhone: customer.phone,
+                    customerAddress: customer.address,
+                    product: product,
+                    price: Math.floor(Math.random() * 2000) + 500,
+                    date: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toLocaleString(),
+                    status: statuses[Math.floor(Math.random() * statuses.length)],
+                    paymentMethod: Math.random() > 0.5 ? 'cash_on_delivery' : 'bank_transfer',
+                    notes: 'Commande générée automatiquement pour les tests'
+                };
+
+                orders.push(order);
+            }
+
+            localStorage.setItem('commandes', JSON.stringify(orders));
+
+            // Déclencher l'événement de nouvelles commandes
+            window.dispatchEvent(new CustomEvent('newOrderReceived', {
+                detail: { count: 5 }
+            }));
+
+            showStatus('creation-status', '5 commandes créées avec succès !', 'success');
+            updateOrdersSummary();
+        }
+
+        // Créer une commande urgente (ancienne)
+        function createUrgentOrder() {
+            const urgentOrder = {
+                id: 'CMD' + Date.now(),
+                customerName: 'Client Urgent',
+                customerPhone: '+212 6 00 00 00 00',
+                customerAddress: 'Adresse urgente',
+                product: 'Commande urgente - 10 jours',
+                price: 2500,
+                date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toLocaleString(),
+                status: 'en-attente',
+                paymentMethod: 'cash_on_delivery',
+                notes: 'URGENT - Commande en attente depuis 10 jours !'
+            };
+
+            let orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+            orders.push(urgentOrder);
+            localStorage.setItem('commandes', JSON.stringify(orders));
+
+            window.dispatchEvent(new CustomEvent('newOrderReceived', {
+                detail: urgentOrder
+            }));
+
+            showStatus('creation-status', 'Commande urgente créée !', 'success');
+            updateOrdersSummary();
+        }
+
+        // Voir toutes les commandes
+        function viewAllOrders() {
+            const orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+            const summary = document.getElementById('management-status');
+            
+            summary.innerHTML = `
+                <div class="order-item">
+                    <strong>Commandes trouvées : ${orders.length}</strong>
+                    <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
+                        ${orders.map(order => `
+                            <div style="border-bottom: 1px solid #e1e3e5; padding: 8px 0;">
+                                <strong>#${order.id}</strong> - ${order.customerName}<br>
+                                <small>${order.product} - ${order.price} DH - ${order.status}</small>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Exporter les commandes
+        function exportOrdersTest() {
+            const orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+            
+            if (orders.length === 0) {
+                showStatus('management-status', 'Aucune commande à exporter', 'error');
+                return;
+            }
+
+            // Créer le CSV
+            const csv = [
+                ['ID', 'Client', 'Téléphone', 'Adresse', 'Produit', 'Prix', 'Date', 'Statut', 'Paiement', 'Notes'].join(','),
+                ...orders.map(order => [
+                    order.id,
+                    order.customerName,
+                    order.customerPhone,
+                    order.customerAddress,
+                    order.product,
+                    order.price,
+                    order.date,
+                    order.status,
+                    order.paymentMethod,
+                    order.notes || ''
+                ].map(field => `"${field}"`).join(','))
+            ].join('\n');
+
+            // Télécharger le fichier
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `commandes_test_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showStatus('management-status', 'Fichier CSV téléchargé !', 'success');
+        }
+
+        // Vider toutes les commandes
+        function clearAllOrders() {
+            if (confirm('Êtes-vous sûr de vouloir supprimer TOUTES les commandes ?')) {
+                localStorage.removeItem('commandes');
+                showStatus('management-status', 'Toutes les commandes supprimées', 'success');
+                updateOrdersSummary();
+            }
+        }
+
+        // Mettre à jour le résumé des commandes
+        function updateOrdersSummary() {
+            const orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+            const summary = document.getElementById('orders-summary');
+            
+            if (orders.length === 0) {
+                summary.innerHTML = '<p>Aucune commande trouvée. Créez des commandes de test ci-dessus.</p>';
+                return;
+            }
+
+            // Calculer les statistiques
+            const stats = {
+                total: orders.length,
+                pending: orders.filter(o => o.status === 'en-attente' || o.status === 'pending').length,
+                confirmed: orders.filter(o => o.status === 'confirmee' || o.status === 'confirmed').length,
+                processing: orders.filter(o => o.status === 'en-preparation' || o.status === 'processing').length,
+                shipped: orders.filter(o => o.status === 'expediee' || o.status === 'shipped').length,
+                delivered: orders.filter(o => o.status === 'livree' || o.status === 'delivered').length,
+                cancelled: orders.filter(o => o.status === 'annulee' || o.status === 'cancelled').length,
+                totalValue: orders.reduce((sum, order) => sum + (parseFloat(order.price) || 0), 0)
+            };
+
+            // Calculer les commandes urgentes (plus de 7 jours)
+            const urgent = orders.filter(order => {
+                const orderDate = new Date(order.date);
+                const daysDiff = (new Date() - orderDate) / (1000 * 60 * 60 * 24);
+                return daysDiff > 7 && (order.status === 'en-attente' || order.status === 'pending');
+            }).length;
+
+            summary.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div><strong>Total :</strong> ${stats.total}</div>
+                    <div><strong>En attente :</strong> ${stats.pending}</div>
+                    <div><strong>Confirmées :</strong> ${stats.confirmed}</div>
+                    <div><strong>En préparation :</strong> ${stats.processing}</div>
+                    <div><strong>Expédiées :</strong> ${stats.shipped}</div>
+                    <div><strong>Livrées :</strong> ${stats.delivered}</div>
+                    <div style="color: #dc2626;"><strong>Urgentes :</strong> ${urgent}</div>
+                    <div><strong>Valeur totale :</strong> ${stats.totalValue.toLocaleString('fr-FR')} DH</div>
+                </div>
+            `;
+        }
+
+        // Afficher un message de statut
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+            
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
