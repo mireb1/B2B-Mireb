@@ -37,6 +37,10 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/leads', require('./routes/leads'));
+app.use('/api/deliveries', require('./routes/deliveries'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/contact', require('./routes/contact'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

@@ -1,0 +1,13 @@
+{
+  "name": "mireb-web-server",
+  "version": "1.0.0",
+  "description": "Serveur web pour Mireb B2B",
+  "main": "web-server.js",
+  "scripts": {
+    "start": "node web-server.js",
+    "web": "node web-server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

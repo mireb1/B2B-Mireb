@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Mireb Commercial</title>
     <link rel="stylesheet" href="style.css">
+    <script src="js/config.js"></script>
     <script src="js/api-service.js"></script>
+    <script src="js/categories-config.js"></script>
+    <script src="js/deliveries.js"></script>
+    <script src="js/user-management.js"></script>
+    <script src="js/crm-advanced.js"></script>
+    <script src="js/social-integrations.js"></script>
+    <script src="js/admin-advanced.js" defer></script>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Mise à jour design admin - 24 juin 2025 -->
 </head>
 <body>
     <header>
@@ -44,10 +50,7 @@
         <section class="admin-panel" id="admin-panel" style="display:none;">
             <div class="admin-header">
                 <h2><i class="fas fa-tachometer-alt"></i> Tableau de bord</h2>
-                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
-                    <span id="admin-date" style="font-size: 0.95rem; color: var(--text-light); font-style: italic;"></span>
-                    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
-                </div>
+                <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
             </div>
             
             <div class="admin-stats">
@@ -76,9 +79,14 @@
             <div class="admin-tabs">
                 <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-home"></i> Tableau de bord</button>
                 <button class="tab-btn" data-tab="orders"><i class="fas fa-list"></i> Commandes</button>
-                <button class="tab-btn" data-tab="products"><i class="fas fa-box"></i> Produits</button>
-                <button class="tab-btn" data-tab="clients"><i class="fas fa-users"></i> Clients</button>
+                <button class="tab-btn" data-tab="products"><i class="fas fa-box"></i> Produits & Catégories</button>
+                <button class="tab-btn" data-tab="clients"><i class="fas fa-users"></i> CRM Clients</button>
+                <button class="tab-btn" data-tab="delivery"><i class="fas fa-truck"></i> Livraisons</button>
+                <button class="tab-btn" data-tab="marketing"><i class="fas fa-bullhorn"></i> Marketing</button>
+                <button class="tab-btn" data-tab="communication"><i class="fas fa-phone"></i> Communication</button>
+                <button class="tab-btn" data-tab="users"><i class="fas fa-user-friends"></i> Utilisateurs</button>
                 <button class="tab-btn" data-tab="messages"><i class="fas fa-envelope"></i> Messages</button>
+                <button class="tab-btn" data-tab="analytics"><i class="fas fa-chart-line"></i> Analytics</button>
                 <button class="tab-btn" data-tab="settings"><i class="fas fa-cog"></i> Paramètres</button>
             </div>
 
@@ -136,11 +144,72 @@
             </div>
 
             <div class="admin-tab-content" id="products-tab">
-                <h3>Gestion des produits</h3>
-                <button id="add-product-btn" class="primary-btn"><i class="fas fa-plus"></i> Ajouter un produit</button>
-                
-                <div class="product-grid" id="admin-products">
-                    <!-- Liste des produits sera ajoutée dynamiquement -->
+                <div class="products-header">
+                    <h3><i class="fas fa-box"></i> Gestion des Produits & Catégories</h3>
+                    <div class="product-actions">
+                        <button id="add-category-btn" class="success-btn"><i class="fas fa-plus"></i> Nouvelle Catégorie</button>
+                        <button id="add-product-btn" class="primary-btn"><i class="fas fa-plus"></i> Nouveau Produit</button>
+                    </div>
+                </div>
+
+                <div class="products-management">
+                    <!-- Gestion des Catégories -->
+                    <div class="categories-section">
+                        <h4><i class="fas fa-tags"></i> Catégories</h4>
+                        <div class="categories-grid" id="admin-categories">
+                            <!-- Les catégories seront ajoutées dynamiquement -->
+                        </div>
+                    </div>
+
+                    <!-- Gestion des Produits -->
+                    <div class="products-section">
+                        <h4><i class="fas fa-boxes"></i> Produits</h4>
+                        <div class="product-filters">
+                            <select id="category-filter">
+                                <option value="all">Toutes les catégories</option>
+                            </select>
+                            <select id="stock-filter">
+                                <option value="all">Tous les stocks</option>
+                                <option value="low">Stock faible (< 10)</option>
+                                <option value="out">Rupture de stock</option>
+                            </select>
+                            <input type="text" id="product-search" placeholder="Rechercher un produit...">
+                        </div>
+                        <div class="product-grid" id="admin-products">
+                            <!-- Liste des produits sera ajoutée dynamiquement -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Catégorie -->
+                <div id="category-modal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3 id="category-modal-title">Nouvelle Catégorie</h3>
+                        <form id="category-form">
+                            <input type="hidden" id="category-id">
+                            <div class="form-group">
+                                <label for="category-name">Nom de la catégorie:</label>
+                                <input type="text" id="category-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="category-description">Description:</label>
+                                <textarea id="category-description" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="category-icon">Icône (Font Awesome):</label>
+                                <input type="text" id="category-icon" placeholder="fas fa-laptop" value="fas fa-box">
+                            </div>
+                            <div class="form-group">
+                                <label for="category-color">Couleur:</label>
+                                <input type="color" id="category-color" value="#667eea">
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-category" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <div id="product-modal" class="modal" style="display:none;">
@@ -156,10 +225,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="product-category">Catégorie:</label>
-                                    <select id="product-category">
-                                        <option value="premium">Premium</option>
-                                        <option value="standard">Standard</option>
-                                        <option value="basic">Basique</option>
+                                    <select id="product-category" required>
+                                        <option value="">Sélectionner une catégorie</option>
                                     </select>
                                 </div>
                             </div>
@@ -181,6 +248,16 @@
                                 <label for="product-image">URL de l'image:</label>
                                 <input type="text" id="product-image" placeholder="https://...">
                             </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="product-weight">Poids (kg):</label>
+                                    <input type="number" id="product-weight" step="0.1" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="product-dimensions">Dimensions (L×l×H cm):</label>
+                                    <input type="text" id="product-dimensions" placeholder="30×20×10">
+                                </div>
+                            </div>
                             <div class="form-actions">
                                 <button type="button" id="cancel-product" class="secondary-btn">Annuler</button>
                                 <button type="submit" class="primary-btn">Enregistrer</button>
@@ -191,27 +268,372 @@
             </div>
 
             <div class="admin-tab-content" id="clients-tab">
-                <h3>Liste des clients</h3>
+                <div class="crm-header">
+                    <h3><i class="fas fa-users"></i> CRM - Gestion des Clients</h3>
+                    <div class="crm-actions">
+                        <button id="add-client-btn" class="primary-btn"><i class="fas fa-plus"></i> Nouveau Client</button>
+                        <button id="import-clients-btn" class="success-btn"><i class="fas fa-file-import"></i> Importer</button>
+                        <button id="export-clients-btn" class="secondary-btn"><i class="fas fa-file-export"></i> Exporter</button>
+                    </div>
+                </div>
+
+                <div class="crm-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users fa-2x"></i>
+                        <h4>Total Clients</h4>
+                        <p id="total-clients">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-plus fa-2x"></i>
+                        <h4>Nouveaux ce mois</h4>
+                        <p id="new-clients">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-star fa-2x"></i>
+                        <h4>Clients VIP</h4>
+                        <p id="vip-clients">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-money-bill-wave fa-2x"></i>
+                        <h4>CA Total</h4>
+                        <p id="total-revenue">0 €</p>
+                    </div>
+                </div>
+
                 <div class="table-controls">
                     <div class="search">
                         <input type="text" id="client-search" placeholder="Rechercher un client...">
                         <button id="search-client-btn"><i class="fas fa-search"></i></button>
                     </div>
+                    <div class="filters">
+                        <select id="client-status-filter">
+                            <option value="all">Tous les statuts</option>
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="vip">VIP</option>
+                        </select>
+                        <select id="client-city-filter">
+                            <option value="all">Toutes les villes</option>
+                        </select>
+                    </div>
                 </div>
+
                 <table id="clients-table">
                     <thead>
                         <tr>
+                            <th>Photo</th>
                             <th>Nom</th>
                             <th>Email</th>
                             <th>Téléphone</th>
+                            <th>Ville</th>
+                            <th>Statut</th>
                             <th>Commandes</th>
-                            <th>Valeur totale</th>
+                            <th>CA Total</th>
+                            <th>Dernière activité</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
                 <div id="no-clients-message">Aucun client pour le moment.</div>
+
+                <!-- Modal Client -->
+                <div id="client-modal" class="modal" style="display:none;">
+                    <div class="modal-content large-modal">
+                        <span class="close-modal">&times;</span>
+                        <h3 id="client-modal-title">Nouveau Client</h3>
+                        <form id="client-form">
+                            <input type="hidden" id="client-id">
+                            <div class="client-tabs">
+                                <button type="button" class="client-tab-btn active" data-tab="basic">Informations</button>
+                                <button type="button" class="client-tab-btn" data-tab="address">Adresse</button>
+                                <button type="button" class="client-tab-btn" data-tab="notes">Notes</button>
+                            </div>
+
+                            <div class="client-tab-content active" id="basic-tab">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="client-firstname">Prénom:</label>
+                                        <input type="text" id="client-firstname" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-lastname">Nom:</label>
+                                        <input type="text" id="client-lastname" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="client-email">Email:</label>
+                                        <input type="email" id="client-email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-phone">Téléphone:</label>
+                                        <input type="tel" id="client-phone" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="client-company">Entreprise:</label>
+                                        <input type="text" id="client-company">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-status">Statut:</label>
+                                        <select id="client-status">
+                                            <option value="active">Actif</option>
+                                            <option value="inactive">Inactif</option>
+                                            <option value="vip">VIP</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="client-tab-content" id="address-tab">
+                                <div class="form-group">
+                                    <label for="client-address">Adresse:</label>
+                                    <input type="text" id="client-address">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="client-city">Ville:</label>
+                                        <input type="text" id="client-city">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="client-postal">Code postal:</label>
+                                        <input type="text" id="client-postal">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="client-country">Pays:</label>
+                                    <input type="text" id="client-country" value="France">
+                                </div>
+                            </div>
+
+                            <div class="client-tab-content" id="notes-tab">
+                                <div class="form-group">
+                                    <label for="client-notes">Notes internes:</label>
+                                    <textarea id="client-notes" rows="6" placeholder="Notes privées sur le client..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="client-tags">Tags:</label>
+                                    <input type="text" id="client-tags" placeholder="VIP, Fidèle, Prospect...">
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" id="cancel-client" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="users-tab">
+                <div class="users-header">
+                    <h3><i class="fas fa-user-friends"></i> Gestion des Utilisateurs & Filles</h3>
+                    <div class="users-actions">
+                        <button id="add-user-btn" class="primary-btn"><i class="fas fa-plus"></i> Nouvel Utilisateur</button>
+                        <button id="import-users-btn" class="success-btn"><i class="fas fa-file-import"></i> Importer</button>
+                        <button id="export-users-btn" class="secondary-btn"><i class="fas fa-file-export"></i> Exporter</button>
+                    </div>
+                </div>
+
+                <div class="users-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users fa-2x"></i>
+                        <h4>Total Utilisateurs</h4>
+                        <p id="total-users">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-check fa-2x"></i>
+                        <h4>Actifs</h4>
+                        <p id="active-users">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-plus fa-2x"></i>
+                        <h4>Nouveaux ce mois</h4>
+                        <p id="new-users">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-sign-in-alt fa-2x"></i>
+                        <h4>Connexions récentes</h4>
+                        <p id="recent-logins">0</p>
+                    </div>
+                </div>
+
+                <div class="users-filters">
+                    <div class="filter-group">
+                        <label for="user-role-filter">Rôle:</label>
+                        <select id="user-role-filter">
+                            <option value="">Tous les rôles</option>
+                            <option value="admin">Administrateur</option>
+                            <option value="sales_manager">Responsable Ventes</option>
+                            <option value="support_agent">Agent Support</option>
+                            <option value="delivery_manager">Responsable Livraisons</option>
+                            <option value="marketing_specialist">Spécialiste Marketing</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="user-status-filter">Statut:</label>
+                        <select id="user-status-filter">
+                            <option value="">Tous</option>
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                        </select>
+                    </div>
+                    <div class="search-group">
+                        <input type="text" id="user-search" placeholder="Rechercher un utilisateur...">
+                        <button id="search-user-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+
+                <div class="users-table-container">
+                    <table id="users-table" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Statut</th>
+                                <th>Dernière connexion</th>
+                                <th>Créé le</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Les utilisateurs seront ajoutés dynamiquement -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Modals pour la gestion des utilisateurs -->
+                <div id="user-modal" class="modal" style="display:none;">
+                    <div class="modal-content large-modal">
+                        <span class="close-modal">&times;</span>
+                        <h3 id="user-modal-title">Nouvel Utilisateur</h3>
+                        <form id="user-form">
+                            <input type="hidden" id="user-id">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-firstname">Prénom:</label>
+                                    <input type="text" id="user-firstname" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-lastname">Nom:</label>
+                                    <input type="text" id="user-lastname" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-username">Nom d'utilisateur:</label>
+                                    <input type="text" id="user-username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-email">Email:</label>
+                                    <input type="email" id="user-email" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-phone">Téléphone:</label>
+                                    <input type="tel" id="user-phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-role">Rôle:</label>
+                                    <select id="user-role" required>
+                                        <option value="">Sélectionner un rôle</option>
+                                        <option value="admin">Administrateur</option>
+                                        <option value="sales_manager">Responsable Ventes</option>
+                                        <option value="support_agent">Agent Support</option>
+                                        <option value="delivery_manager">Responsable Livraisons</option>
+                                        <option value="marketing_specialist">Spécialiste Marketing</option>
+                                        <option value="accountant">Comptable</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="user-password">Mot de passe:</label>
+                                    <input type="password" id="user-password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-password-confirm">Confirmer mot de passe:</label>
+                                    <input type="password" id="user-password-confirm" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="user-avatar">Avatar (URL):</label>
+                                <input type="url" id="user-avatar" placeholder="https://...">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="user-is-active" checked>
+                                    Compte actif
+                                </label>
+                            </div>
+                            
+                            <div class="permissions-section">
+                                <h4>Permissions personnalisées</h4>
+                                <div class="permissions-grid" id="user-permissions">
+                                    <!-- Les permissions seront ajoutées dynamiquement -->
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" id="cancel-user" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Modal de confirmation de suppression -->
+                <div id="delete-user-modal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3>Confirmer la suppression</h3>
+                        <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+                        <p><strong id="delete-user-name"></strong></p>
+                        <div class="form-actions">
+                            <button type="button" id="cancel-delete-user" class="secondary-btn">Annuler</button>
+                            <button type="button" id="confirm-delete-user" class="danger-btn">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal de changement de mot de passe -->
+                <div id="password-modal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3>Changer le mot de passe</h3>
+                        <form id="password-form">
+                            <input type="hidden" id="password-user-id">
+                            <div class="form-group">
+                                <label for="old-password">Ancien mot de passe:</label>
+                                <input type="password" id="old-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">Nouveau mot de passe:</label>
+                                <input type="password" id="new-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-new-password">Confirmer nouveau mot de passe:</label>
+                                <input type="password" id="confirm-new-password" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-password" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Changer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="admin-tab-content" id="messages-tab">
@@ -274,6 +696,457 @@
                             <label for="restore-file" class="secondary-btn"><i class="fas fa-upload"></i> Restaurer une sauvegarde</label>
                             <input type="file" id="restore-file" accept=".json">
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="delivery-tab">
+                <div class="delivery-header">
+                    <h3><i class="fas fa-truck"></i> Gestion des Livraisons</h3>
+                    <div class="delivery-actions">
+                        <button id="add-delivery-btn" class="primary-btn"><i class="fas fa-plus"></i> Nouvelle Livraison</button>
+                        <button id="track-delivery-btn" class="success-btn"><i class="fas fa-search-location"></i> Suivre</button>
+                    </div>
+                </div>
+
+                <div class="delivery-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-clock fa-2x"></i>
+                        <h4>En attente</h4>
+                        <p id="pending-deliveries">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-truck fa-2x"></i>
+                        <h4>En cours</h4>
+                        <p id="active-deliveries">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <h4>Livrées</h4>
+                        <p id="completed-deliveries">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        <h4>Problèmes</h4>
+                        <p id="failed-deliveries">0</p>
+                    </div>
+                </div>
+
+                <div class="table-controls">
+                    <div class="search">
+                        <input type="text" id="delivery-search" placeholder="Rechercher par numéro de suivi...">
+                        <button id="search-delivery-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filters">
+                        <select id="delivery-status-filter">
+                            <option value="all">Tous les statuts</option>
+                            <option value="pending">En attente</option>
+                            <option value="processing">En préparation</option>
+                            <option value="shipped">Expédiée</option>
+                            <option value="delivered">Livrée</option>
+                            <option value="failed">Échec</option>
+                        </select>
+                        <select id="delivery-city-filter">
+                            <option value="all">Toutes les villes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table id="deliveries-table">
+                    <thead>
+                        <tr>
+                            <th>N° Suivi</th>
+                            <th>Client</th>
+                            <th>Adresse</th>
+                            <th>Produits</th>
+                            <th>Livreur</th>
+                            <th>Statut</th>
+                            <th>Date prévue</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div id="no-deliveries-message">Aucune livraison pour le moment.</div>
+
+                <!-- Modal Livraison -->
+                <div id="delivery-modal" class="modal" style="display:none;">
+                    <div class="modal-content large-modal">
+                        <span class="close-modal">&times;</span>
+                        <h3 id="delivery-modal-title">Nouvelle Livraison</h3>
+                        <form id="delivery-form">
+                            <input type="hidden" id="delivery-id">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="delivery-order">Commande associée:</label>
+                                    <select id="delivery-order" required>
+                                        <option value="">Sélectionner une commande</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="delivery-driver">Livreur:</label>
+                                    <select id="delivery-driver">
+                                        <option value="Jean Martin">Jean Martin</option>
+                                        <option value="Marie Dubois">Marie Dubois</option>
+                                        <option value="Pierre Durand">Pierre Durand</option>
+                                        <option value="Sophie Laurent">Sophie Laurent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="delivery-date">Date de livraison prévue:</label>
+                                    <input type="datetime-local" id="delivery-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="delivery-status">Statut:</label>
+                                    <select id="delivery-status">
+                                        <option value="pending">En attente</option>
+                                        <option value="processing">En préparation</option>
+                                        <option value="shipped">Expédiée</option>
+                                        <option value="delivered">Livrée</option>
+                                        <option value="failed">Échec</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-notes">Notes de livraison:</label>
+                                <textarea id="delivery-notes" rows="3" placeholder="Instructions spéciales, codes d'accès, etc."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-delivery" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Enregistrer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="marketing-tab">
+                <div class="marketing-header">
+                    <h3><i class="fas fa-bullhorn"></i> Marketing & Réseaux Sociaux</h3>
+                    <div class="marketing-actions">
+                        <button id="create-campaign-btn" class="primary-btn"><i class="fas fa-plus"></i> Nouvelle Campagne</button>
+                        <button id="social-publish-btn" class="success-btn"><i class="fas fa-share"></i> Publier</button>
+                    </div>
+                </div>
+
+                <div class="marketing-stats">
+                    <div class="stat-card">
+                        <i class="fab fa-facebook fa-2x"></i>
+                        <h4>Facebook Leads</h4>
+                        <p id="facebook-leads">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fab fa-instagram fa-2x"></i>
+                        <h4>Instagram Leads</h4>
+                        <p id="instagram-leads">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-funnel-dollar fa-2x"></i>
+                        <h4>Taux de conversion</h4>
+                        <p id="conversion-rate">0%</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                        <h4>ROI Marketing</h4>
+                        <p id="marketing-roi">0%</p>
+                    </div>
+                </div>
+
+                <div class="marketing-sections">
+                    <!-- Section Leads -->
+                    <div class="marketing-section">
+                        <h4><i class="fas fa-users"></i> Leads & Prospects</h4>
+                        <div class="leads-tools">
+                            <button id="sync-facebook-leads" class="success-btn">
+                                <i class="fab fa-facebook"></i> Synchroniser Facebook
+                            </button>
+                            <button id="sync-instagram-leads" class="success-btn">
+                                <i class="fab fa-instagram"></i> Synchroniser Instagram
+                            </button>
+                            <button id="import-leads" class="secondary-btn">
+                                <i class="fas fa-file-import"></i> Importer CSV
+                            </button>
+                        </div>
+                        <table id="leads-table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Téléphone</th>
+                                    <th>Source</th>
+                                    <th>Intérêt</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Section Publications -->
+                    <div class="marketing-section">
+                        <h4><i class="fas fa-share-alt"></i> Publications Réseaux Sociaux</h4>
+                        <div class="social-publisher">
+                            <div class="form-group">
+                                <label for="post-content">Contenu de la publication:</label>
+                                <textarea id="post-content" rows="4" placeholder="Rédigez votre publication..."></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="post-image">Image:</label>
+                                    <input type="file" id="post-image" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label for="post-category">Catégorie à promouvoir:</label>
+                                    <select id="post-category">
+                                        <option value="">Sélectionner une catégorie</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="social-platforms">
+                                <label>
+                                    <input type="checkbox" id="publish-facebook"> 
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="publish-instagram"> 
+                                    <i class="fab fa-instagram"></i> Instagram
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="publish-linkedin"> 
+                                    <i class="fab fa-linkedin"></i> LinkedIn
+                                </label>
+                            </div>
+                            <button id="schedule-post" class="primary-btn">
+                                <i class="fas fa-calendar"></i> Programmer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Section Tunnel de Vente -->
+                    <div class="marketing-section">
+                        <h4><i class="fas fa-funnel-dollar"></i> Tunnel de Vente</h4>
+                        <div class="funnel-builder">
+                            <div class="funnel-step">
+                                <h5>1. Sensibilisation</h5>
+                                <p>Publications réseaux sociaux, publicités</p>
+                                <button class="secondary-btn">Configurer</button>
+                            </div>
+                            <div class="funnel-step">
+                                <h5>2. Intérêt</h5>
+                                <p>Landing pages, lead magnets</p>
+                                <button class="secondary-btn">Configurer</button>
+                            </div>
+                            <div class="funnel-step">
+                                <h5>3. Considération</h5>
+                                <p>Email marketing, retargeting</p>
+                                <button class="secondary-btn">Configurer</button>
+                            </div>
+                            <div class="funnel-step">
+                                <h5>4. Conversion</h5>
+                                <p>Catalogue produits, promotions</p>
+                                <button class="secondary-btn">Configurer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="communication-tab">
+                <div class="communication-header">
+                    <h3><i class="fas fa-phone"></i> Centre de Communication</h3>
+                    <div class="communication-actions">
+                        <button id="new-call-btn" class="primary-btn"><i class="fas fa-phone"></i> Nouvel Appel</button>
+                        <button id="new-sms-btn" class="success-btn"><i class="fas fa-sms"></i> Nouveau SMS</button>
+                        <button id="whatsapp-btn" class="success-btn"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                    </div>
+                </div>
+
+                <div class="communication-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-phone fa-2x"></i>
+                        <h4>Appels aujourd'hui</h4>
+                        <p id="today-calls">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-sms fa-2x"></i>
+                        <h4>SMS envoyés</h4>
+                        <p id="sent-sms">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fab fa-whatsapp fa-2x"></i>
+                        <h4>Messages WhatsApp</h4>
+                        <p id="whatsapp-messages">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                        <h4>Taux réponse</h4>
+                        <p id="response-rate">0%</p>
+                    </div>
+                </div>
+
+                <div class="communication-sections">
+                    <!-- Section Appels -->
+                    <div class="communication-section">
+                        <h4><i class="fas fa-phone"></i> Historique des Appels</h4>
+                        <div class="calls-list" id="calls-list">
+                            <!-- Les appels seront ajoutés dynamiquement -->
+                        </div>
+                    </div>
+
+                    <!-- Section Messages -->
+                    <div class="communication-section">
+                        <h4><i class="fas fa-comments"></i> Messages</h4>
+                        <div class="message-tabs">
+                            <button class="msg-tab-btn active" data-tab="sms">SMS</button>
+                            <button class="msg-tab-btn" data-tab="whatsapp">WhatsApp</button>
+                            <button class="msg-tab-btn" data-tab="email">Email</button>
+                        </div>
+                        <div class="messages-list" id="messages-list">
+                            <!-- Les messages seront ajoutés dynamiquement -->
+                        </div>
+                    </div>
+
+                    <!-- Section Contact Rapide -->
+                    <div class="communication-section">
+                        <h4><i class="fas fa-bolt"></i> Contact Rapide</h4>
+                        <div class="quick-contact">
+                            <select id="contact-client">
+                                <option value="">Sélectionner un client</option>
+                            </select>
+                            <div class="contact-buttons">
+                                <button id="quick-call" class="primary-btn">
+                                    <i class="fas fa-phone"></i> Appeler
+                                </button>
+                                <button id="quick-sms" class="success-btn">
+                                    <i class="fas fa-sms"></i> SMS
+                                </button>
+                                <button id="quick-whatsapp" class="success-btn">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Appel -->
+                <div id="call-modal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3>Nouvel Appel</h3>
+                        <form id="call-form">
+                            <div class="form-group">
+                                <label for="call-client">Client:</label>
+                                <select id="call-client" required>
+                                    <option value="">Sélectionner un client</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="call-phone">Numéro de téléphone:</label>
+                                <input type="tel" id="call-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="call-notes">Notes de l'appel:</label>
+                                <textarea id="call-notes" rows="4" placeholder="Notes sur la conversation..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-call" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Lancer l'appel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Modal SMS -->
+                <div id="sms-modal" class="modal" style="display:none;">
+                    <div class="modal-content">
+                        <span class="close-modal">&times;</span>
+                        <h3>Nouveau SMS</h3>
+                        <form id="sms-form">
+                            <div class="form-group">
+                                <label for="sms-client">Client:</label>
+                                <select id="sms-client" required>
+                                    <option value="">Sélectionner un client</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sms-phone">Numéro de téléphone:</label>
+                                <input type="tel" id="sms-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sms-content">Message:</label>
+                                <textarea id="sms-content" rows="4" placeholder="Votre message..." maxlength="160" required></textarea>
+                                <small>Caractères restants: <span id="sms-counter">160</span></small>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-sms" class="secondary-btn">Annuler</button>
+                                <button type="submit" class="primary-btn">Envoyer SMS</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-tab-content" id="analytics-tab">
+                <div class="analytics-header">
+                    <h3><i class="fas fa-chart-line"></i> Analytics & Rapports</h3>
+                    <div class="analytics-actions">
+                        <button id="export-analytics" class="success-btn"><i class="fas fa-file-export"></i> Exporter</button>
+                        <select id="analytics-period">
+                            <option value="today">Aujourd'hui</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month" selected>Ce mois</option>
+                            <option value="quarter">Ce trimestre</option>
+                            <option value="year">Cette année</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="analytics-overview">
+                    <div class="stat-card">
+                        <i class="fas fa-eye fa-2x"></i>
+                        <h4>Visiteurs uniques</h4>
+                        <p id="unique-visitors">0</p>
+                        <small class="trend positive">+12%</small>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-shopping-cart fa-2x"></i>
+                        <h4>Taux de conversion</h4>
+                        <p id="conversion-rate-analytics">0%</p>
+                        <small class="trend positive">+8%</small>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-money-bill-wave fa-2x"></i>
+                        <h4>Chiffre d'affaires</h4>
+                        <p id="revenue-analytics">0 €</p>
+                        <small class="trend positive">+25%</small>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users fa-2x"></i>
+                        <h4>Nouveaux clients</h4>
+                        <p id="new-customers">0</p>
+                        <small class="trend negative">-3%</small>
+                    </div>
+                </div>
+
+                <div class="analytics-charts">
+                    <div class="chart-container">
+                        <h4>Évolution du chiffre d'affaires</h4>
+                        <canvas id="revenue-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Top des produits</h4>
+                        <canvas id="products-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Sources de trafic</h4>
+                        <canvas id="traffic-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h4>Répartition géographique</h4>
+                        <canvas id="geo-chart"></canvas>
                     </div>
                 </div>
             </div>

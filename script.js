@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('clients', JSON.stringify([]));
     }
 
-    // Formulaire de contact (version unifiée)
+    // Formulaire de contact
     const contactForm = document.getElementById('contact-form');
     if(contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -107,32 +107,13 @@ document.addEventListener('DOMContentLoaded', function() {
             messages.push(newMessage);
             localStorage.setItem('messages', JSON.stringify(messages));
             
-            // Animation d'envoi
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitButton.innerHTML;
-            
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-            submitButton.disabled = true;
-            
-            // Simuler délai puis afficher succès
-            setTimeout(() => {
-                contactForm.reset();
-                
-                // Afficher confirmation avec style moderne
-                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
-                formMessage.className = 'success';
-                
-                // Restaurer le bouton
-                submitButton.innerHTML = originalText;
-                submitButton.disabled = false;
-                
-                // Masquer le message après 5 secondes
-                setTimeout(() => {
-                    formMessage.innerHTML = '';
-                    formMessage.className = '';
-                }, 5000);
-                
-            }, 2000);
+            // Afficher confirmation
+            formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.';
+            formMessage.style.backgroundColor = '#4CAF50';
+            formMessage.style.color = 'white';
+            formMessage.style.padding = '10px';
+            formMessage.style.borderRadius = '5px';
+            contactForm.reset();
         });
     }
 
@@ -273,11 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.onsubmit = function(e) {
             e.preventDefault();
-            const email = document.getElementById('admin-user').value.trim();
-            const pass = document.getElementById('admin-pass').value.trim();
-            
-            console.log('Tentative de connexion:', email, pass); // Debug
-            console.log('Identifiants attendus:', ADMIN_EMAIL, ADMIN_PASSWORD); // Debug
+            const email = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
             
             if (email === ADMIN_EMAIL && pass === ADMIN_PASSWORD) {
                 adminLogin.style.display = 'none';
@@ -288,13 +266,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Ajouter activité
                 ajouterActivite('Administrateur connecté');
-                
-                loginMessage.textContent = 'Connexion réussie !';
-                loginMessage.style.color = 'green';
             } else {
-                loginMessage.textContent = `Identifiants incorrects. Email: ${email}, Mot de passe: ${pass}`;
+                loginMessage.textContent = 'Identifiants incorrects.';
                 loginMessage.style.color = 'red';
-                console.log('Connexion échouée'); // Debug
             }
         };
     }
@@ -1134,6 +1108,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Gestion du formulaire de contact
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(contactForm);
+            const formMessage = document.getElementById('form-message');
+            
+            // Simulation d'envoi de formulaire
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+            submitButton.disabled = true;
+            
+            // Simuler un délai d'envoi
+            setTimeout(() => {
+                // Réinitialiser le formulaire
+                contactForm.reset();
+                
+                // Afficher un message de succès
+                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.';
+                formMessage.className = 'success';
+                
+                // Restaurer le bouton
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+                
+                // Masquer le message après 5 secondes
+                setTimeout(() => {
+                    formMessage.innerHTML = '';
+                    formMessage.className = '';
+                }, 5000);
+                
+            }, 2000); // Délai de 2 secondes pour simuler l'envoi
+        });
+    }
+
     // Fonction pour faire défiler en douceur vers le formulaire de contact
     const contactLinks = document.querySelectorAll('a[href="#contact-form"]');
     contactLinks.forEach(link => {
@@ -1181,12 +1194,4 @@ document.addEventListener('DOMContentLoaded', function() {
         item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(item);
     });
-    
-    // Affichage dynamique de la date de publication/mise à jour dans l'admin
-    const adminDate = document.getElementById('admin-date');
-    if (adminDate) {
-        const now = new Date();
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        adminDate.textContent = `Mis à jour le ${now.toLocaleDateString('fr-FR', options)}`;
-    }
 });

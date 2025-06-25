@@ -211,4 +211,4 @@ La version précédente utilisait localStorage pour stocker les données. Le nou
 
 ## License
 
-Copyright © 2025 Mireb B2B Marketplace. Tous droits réservés.
+Copyright © 2025 Mireb B2B Marketplace. Tous droits réservés.Force cache clear - Tue Jun 24 14:03:11 UTC 2025
