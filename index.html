@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mireb Commercial - B2B Marketplace</title>
-    <link rel="stylesheet" href="/B2B-Mireb/style-alibaba.css">
+    <link rel="stylesheet" href="style-alibaba.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Styles pour la synchronisation en temps réel */
@@ -255,10 +255,67 @@
 
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Commande envoyée avec succès ! 🎉');
+            
+            // Récupérer les données du formulaire
+            const orderData = {
+                id: 'CMD' + Date.now(),
+                customerName: document.getElementById('fullName').value,
+                customerPhone: document.getElementById('phone').value,
+                customerAddress: document.getElementById('fullAddress').value,
+                product: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value.replace(/[€$]/g, '')),
+                deliveryTime: document.getElementById('deliveryTime').value,
+                date: new Date().toLocaleString(),
+                status: 'en-attente',
+                paymentMethod: 'cash_on_delivery',
+                notes: `Heure de livraison souhaitée: ${document.getElementById('deliveryTime').value}`
+            };
+
+            // Sauvegarder la commande dans localStorage
+            try {
+                let orders = JSON.parse(localStorage.getItem('commandes') || '[]');
+                orders.push(orderData);
+                localStorage.setItem('commandes', JSON.stringify(orders));
+
+                // Déclencher l'événement de nouvelle commande pour synchronisation
+                window.dispatchEvent(new CustomEvent('newOrderReceived', {
+                    detail: orderData
+                }));
+
+                console.log('✅ Commande sauvegardée:', orderData);
+                
+                // Afficher notification de succès
+                showOrderNotification('Commande envoyée avec succès ! 🎉', 'success');
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de la sauvegarde:', error);
+                showOrderNotification('Erreur lors de l\'envoi de la commande', 'error');
+            }
+
             closeOrderForm();
             this.reset();
         });
+
+        // Fonction pour afficher les notifications
+        function showOrderNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'sync-notification';
+            notification.style.background = type === 'success' ? '#008060' : '#d72c0d';
+            notification.innerHTML = `
+                <div class="sync-notification-content">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 4000);
+        }
 
         // Fermer le modal en cliquant en dehors
         window.onclick = function(event) {
@@ -270,9 +327,9 @@
     </script>
     
     <!-- Scripts de synchronisation Shopify -->
-    <script src="/B2B-Mireb/js/product-manager-shopify.js"></script>
-    <script src="/B2B-Mireb/js/homepage-sync.js"></script>
-    <script src="/B2B-Mireb/js/config.js"></script>
-    <script src="/B2B-Mireb/js/homepage-categories.js"></script>
+    <script src="js/product-manager-shopify.js"></script>
+    <script src="js/homepage-sync.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/homepage-categories.js"></script>
 </body>
 </html>
