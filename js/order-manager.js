@@ -325,6 +325,46 @@ class OrderManager {
 window.orderManager = new OrderManager();
 
 // ============================================
+// FONCTION GLOBALE DE NOTIFICATION
+// ============================================
+
+// Fonction globale pour afficher les notifications
+function showNotification(message, type = 'info') {
+    if (window.shopifyAdmin && typeof window.shopifyAdmin.showNotification === 'function') {
+        window.shopifyAdmin.showNotification(message, type);
+    } else {
+        // Fallback si shopifyAdmin n'est pas disponible
+        const notification = document.createElement('div');
+        notification.className = 'sync-notification';
+        notification.style.cssText = `
+            position: fixed;
+            top: 80px;
+            right: 24px;
+            background: ${type === 'success' ? '#008060' : type === 'error' ? '#d72c0d' : type === 'warning' ? '#f59e0b' : '#202223'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1001;
+            animation: slideInRight 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, sans-serif;
+        `;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span style="margin-left: 8px;">${message}</span>
+        `;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 4000);
+    }
+}
+
+// ============================================
 // FONCTIONS SPÉCIFIQUES INTERFACE ADMIN SHOPIFY
 // ============================================
 
@@ -666,3 +706,140 @@ window.addEventListener('newOrderReceived', function(e) {
     displayOrdersInAdmin();
     showNotification('Nouvelle commande reçue !', 'success');
 });
+
+// ============================================
+// FONCTIONS MANQUANTES POUR L'INTERFACE ADMIN
+// ============================================
+
+// Fonction pour sauvegarder les modifications d'une commande
+function saveOrderChanges() {
+    // TODO: Implémenter l'édition de commande
+    showNotification('Fonctionnalité de modification en cours de développement', 'info');
+    closeOrderModal();
+}
+
+// Fonction pour exporter les données (produits + commandes)
+function exportData() {
+    const orders = window.orderManager.orders;
+    const products = window.mirebProductManager ? window.mirebProductManager.products : [];
+    const categories = window.mirebProductManager ? window.mirebProductManager.categories : [];
+    
+    const exportData = {
+        timestamp: new Date().toISOString(),
+        orders: orders,
+        products: products,
+        categories: categories,
+        version: '1.0'
+    };
+    
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `mireb_export_${new Date().toISOString().split('T')[0]}.json`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    showNotification('Export JSON téléchargé avec succès', 'success');
+}
+
+// Fonction pour forcer la synchronisation
+function forcSync() {
+    window.orderManager.loadOrders();
+    if (window.mirebProductManager) {
+        window.mirebProductManager.loadProducts();
+        window.mirebProductManager.loadCategories();
+    }
+    
+    // Mettre à jour l'affichage
+    if (typeof displayOrdersInAdmin === 'function') {
+        displayOrdersInAdmin();
+    }
+    
+    // Déclencher les événements de synchronisation
+    window.dispatchEvent(new CustomEvent('syncForced', {
+        detail: { timestamp: Date.now() }
+    }));
+    
+    showNotification('Synchronisation forcée effectuée', 'success');
+}
+
+// Fonction pour réinitialiser les données
+function resetData() {
+    if (confirm('⚠️ ATTENTION ⚠️\n\nCette action va supprimer TOUTES les données :\n- Toutes les commandes\n- Tous les produits\n- Toutes les catégories\n\nÊtes-vous absolument sûr de vouloir continuer ?')) {
+        if (confirm('Dernière confirmation : Voulez-vous vraiment TOUT supprimer ?')) {
+            // Supprimer toutes les données du localStorage
+            localStorage.removeItem('commandes');
+            localStorage.removeItem('products');
+            localStorage.removeItem('categories');
+            localStorage.removeItem('clients');
+            
+            // Réinitialiser les gestionnaires
+            window.orderManager.orders = [];
+            if (window.mirebProductManager) {
+                window.mirebProductManager.products = [];
+                window.mirebProductManager.categories = [];
+            }
+            
+            // Mettre à jour l'affichage
+            if (typeof displayOrdersInAdmin === 'function') {
+                displayOrdersInAdmin();
+            }
+            
+            showNotification('Toutes les données ont été supprimées', 'success');
+        }
+    }
+}
+
+// Fonction pour importer des données depuis un fichier JSON
+function importData() {
+    const fileInput = document.getElementById('import-file');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        showNotification('Veuillez sélectionner un fichier JSON', 'warning');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            
+            // Vérifier la structure des données
+            if (importedData.orders) {
+                localStorage.setItem('commandes', JSON.stringify(importedData.orders));
+                window.orderManager.loadOrders();
+            }
+            
+            if (importedData.products && window.mirebProductManager) {
+                localStorage.setItem('products', JSON.stringify(importedData.products));
+                window.mirebProductManager.loadProducts();
+            }
+            
+            if (importedData.categories && window.mirebProductManager) {
+                localStorage.setItem('categories', JSON.stringify(importedData.categories));
+                window.mirebProductManager.loadCategories();
+            }
+            
+            // Mettre à jour l'affichage
+            if (typeof displayOrdersInAdmin === 'function') {
+                displayOrdersInAdmin();
+            }
+            
+            showNotification('Import réussi ! Données restaurées.', 'success');
+            
+            // Réinitialiser le champ de fichier
+            fileInput.value = '';
+            
+        } catch (error) {
+            console.error('Erreur lors de l\'import:', error);
+            showNotification('Erreur : Fichier JSON invalide', 'error');
+        }
+    };
+    
+    reader.readAsText(file);
+}

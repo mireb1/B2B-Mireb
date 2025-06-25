@@ -544,3 +544,45 @@ window.resetData = () => {
 document.addEventListener('DOMContentLoaded', function() {
     window.shopifyAdmin = new ShopifyAdminInterface();
 });
+
+// ============================================
+// FONCTIONS GLOBALES POUR LES MODALS
+// ============================================
+
+// Fonctions pour la modal produit
+function openProductModal(productId = null) {
+    if (window.shopifyAdmin) {
+        window.shopifyAdmin.openProductModal(productId);
+    }
+}
+
+function closeProductModal() {
+    if (window.shopifyAdmin) {
+        window.shopifyAdmin.closeProductModal();
+    }
+}
+
+function saveProduct() {
+    if (window.shopifyAdmin) {
+        window.shopifyAdmin.saveProduct();
+    }
+}
+
+// Fonctions pour la modal catégorie
+function openCategoryModal(categoryId = null) {
+    if (window.shopifyAdmin) {
+        window.shopifyAdmin.openCategoryModal(categoryId);
+    }
+}
+
+function closeCategoryModal() {
+    if (window.shopifyAdmin) {
+        window.shopifyAdmin.closeCategoryModal();
+    }
+}
+
+function saveCategory() {
+    if (window.shopifyAdmin) {
+        window.shopifyAdmin.saveCategory();
+    }
+}
