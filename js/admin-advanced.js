@@ -217,6 +217,9 @@ document.addEventListener('DOMContentLoaded', function() {
             categorySelect.innerHTML = '<option value="">Sélectionner une catégorie</option>' +
                 categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
         }
+        
+        // Synchroniser automatiquement à chaque chargement
+        syncWithHomepage();
     }
 
     function openCategoryModal(categoryId = null) {
@@ -270,6 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         loadCategories();
+        syncWithHomepage(); // SYNCHRONISATION AUTOMATIQUE
         document.getElementById('category-modal').style.display = 'none';
     }
 
@@ -774,125 +778,290 @@ document.addEventListener('DOMContentLoaded', function() {
         // Pour le moment, on simule juste les données
     }
 
-    // === FONCTIONS UTILITAIRES ===
-    function formatDateTime(dateString) {
-        return new Date(dateString).toLocaleString('fr-FR');
-    }
-
-    function showNotification(message, type = 'info') {
-        // Créer la notification
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-            <span>${message}</span>
-        `;
-
-        // Ajouter au DOM
-        document.body.appendChild(notification);
-
-        // Supprimer après 5 secondes
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
+    // === SYNCHRONISATION AVEC LA PAGE D'ACCUEIL ===
+    function syncWithHomepage() {
+        try {
+            // Sauvegarder les catégories
+            localStorage.setItem('mireb_categories', JSON.stringify(categories));
+            
+            // Sauvegarder les produits (si définis)
+            if (typeof products !== 'undefined') {
+                localStorage.setItem('mireb_products', JSON.stringify(products));
             }
-        }, 5000);
+            
+            // Déclencher un événement pour notifier la page d'accueil
+            window.dispatchEvent(new CustomEvent('adminDataUpdated', {
+                detail: {
+                    categories: categories,
+                    products: typeof products !== 'undefined' ? products : [],
+                    timestamp: Date.now()
+                }
+            }));
+            
+            console.log('🔄 Données synchronisées avec la page d\'accueil', {
+                categories: categories.length,
+                products: typeof products !== 'undefined' ? products.length : 0
+            });
+        } catch (error) {
+            console.error('❌ Erreur lors de la synchronisation:', error);
+        }
     }
 
-    // === FONCTIONS GLOBALES (accessibles depuis le HTML) ===
-    window.editCategory = function(id) {
-        openCategoryModal(id);
-    };
+    // === GESTION PRODUITS ===
+    let products = [
+        {
+            id: 1,
+            name: 'MacBook Pro 16"',
+            category: 1,
+            price: 2499,
+            description: 'Ordinateur portable haute performance pour professionnels',
+            image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400',
+            stock: 15,
+            featured: true,
+            status: 'active'
+        },
+        {
+            id: 2,
+            name: 'iPhone 15 Pro',
+            category: 1,
+            price: 1199,
+            description: 'Smartphone dernière génération avec puce A17 Pro',
+            image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400',
+            stock: 25,
+            featured: true,
+            status: 'active'
+        },
+        {
+            id: 3,
+            name: 'Robe élégante',
+            category: 2,
+            price: 89,
+            description: 'Robe de soirée élégante pour occasions spéciales',
+            image: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400',
+            stock: 12,
+            featured: false,
+            status: 'active'
+        },
+        {
+            id: 4,
+            name: 'Canapé moderne',
+            category: 3,
+            price: 1299,
+            description: 'Canapé 3 places design moderne et confortable',
+            image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400',
+            stock: 5,
+            featured: true,
+            status: 'active'
+        }
+    ];
 
-    window.deleteCategory = function(id) {
+    function loadProducts() {
+        const container = document.getElementById('admin-products');
+        if (!container) return;
+
+        container.innerHTML = products.map(product => {
+            const category = categories.find(c => c.id === product.category);
+            return `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+non+disponible'">
+                        ${product.featured ? '<span class="featured-badge">★ Vedette</span>' : ''}
+                    </div>
+                    <div class="product-info">
+                        <h5>${product.name}</h5>
+                        <p class="product-category">${category ? category.name : 'Sans catégorie'}</p>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-details">
+                            <span class="product-price">${product.price} €</span>
+                            <span class="product-stock">Stock: ${product.stock}</span>
+                        </div>
+                        <div class="product-actions">
+                            <button onclick="editProduct(${product.id})" class="primary-btn">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteProduct(${product.id})" class="danger-btn">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button onclick="toggleFeatured(${product.id})" class="secondary-btn">
+                                <i class="fas fa-star"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function openProductModal(productId = null) {
+        const modal = document.getElementById('product-modal');
+        const title = document.getElementById('product-modal-title');
+        const form = document.getElementById('product-form');
+
+        if (productId) {
+            const product = products.find(p => p.id === productId);
+            title.textContent = 'Modifier le produit';
+            document.getElementById('product-id').value = product.id;
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-description').value = product.description;
+            document.getElementById('product-image').value = product.image;
+            document.getElementById('product-stock').value = product.stock;
+            document.getElementById('product-featured').checked = product.featured;
+            document.getElementById('product-status').value = product.status;
+        } else {
+            title.textContent = 'Nouveau produit';
+            form.reset();
+            document.getElementById('product-id').value = '';
+        }
+
+        modal.style.display = 'flex';
+    }
+
+    function handleProductSubmit(e) {
+        e.preventDefault();
+        
+        const productData = {
+            name: document.getElementById('product-name').value,
+            category: parseInt(document.getElementById('product-category').value),
+            price: parseFloat(document.getElementById('product-price').value),
+            description: document.getElementById('product-description').value,
+            image: document.getElementById('product-image').value || 'https://via.placeholder.com/300x200?text=Produit',
+            stock: parseInt(document.getElementById('product-stock').value),
+            featured: document.getElementById('product-featured').checked,
+            status: document.getElementById('product-status').value
+        };
+
+        const productId = document.getElementById('product-id').value;
+
+        if (productId) {
+            // Modification
+            const index = products.findIndex(p => p.id == productId);
+            products[index] = { ...products[index], ...productData };
+            showNotification('Produit modifié avec succès !', 'success');
+        } else {
+            // Ajout
+            const newProduct = {
+                id: Date.now(),
+                ...productData
+            };
+            products.push(newProduct);
+            showNotification('Produit ajouté avec succès !', 'success');
+        }
+
+        loadProducts();
+        syncWithHomepage(); // SYNCHRONISATION AUTOMATIQUE
+        document.getElementById('product-modal').style.display = 'none';
+    }
+
+    function deleteProduct(productId) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
+            products = products.filter(p => p.id !== productId);
+            loadProducts();
+            syncWithHomepage(); // SYNCHRONISATION AUTOMATIQUE
+            showNotification('Produit supprimé avec succès !', 'success');
+        }
+    }
+
+    function editProduct(productId) {
+        openProductModal(productId);
+    }
+
+    function toggleFeatured(productId) {
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            product.featured = !product.featured;
+            loadProducts();
+            syncWithHomepage(); // SYNCHRONISATION AUTOMATIQUE
+            showNotification(`Produit ${product.featured ? 'ajouté aux' : 'retiré des'} vedettes !`, 'success');
+        }
+    }
+
+    function deleteCategory(categoryId) {
         if (confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
-            categories = categories.filter(c => c.id !== id);
+            categories = categories.filter(c => c.id !== categoryId);
             loadCategories();
+            syncWithHomepage(); // SYNCHRONISATION AUTOMATIQUE
             showNotification('Catégorie supprimée avec succès !', 'success');
         }
-    };
+    }
 
-    window.editClient = function(id) {
-        openClientModal(id);
-    };
+    function editCategory(categoryId) {
+        openCategoryModal(categoryId);
+    }
 
-    window.deleteClient = function(id) {
-        if (confirm('Êtes-vous sûr de vouloir supprimer ce client ?')) {
-            clients = clients.filter(c => c.id !== id);
-            loadClients();
-            updateCRMStats();
-            showNotification('Client supprimé avec succès !', 'success');
-        }
-    };
+    // Modifier la fonction handleCategorySubmit pour inclure la synchronisation
+    function handleCategorySubmit(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const categoryData = {
+            name: document.getElementById('category-name').value,
+            description: document.getElementById('category-description').value,
+            icon: document.getElementById('category-icon').value,
+            color: document.getElementById('category-color').value
+        };
 
-    window.callClient = function(phone) {
-        window.open(`tel:${phone}`);
-        showNotification(`Appel vers ${phone}`, 'info');
-    };
+        const categoryId = document.getElementById('category-id').value;
 
-    window.sendSMS = function(phone) {
-        document.getElementById('sms-phone').value = phone;
-        openSMSModal();
-    };
-
-    window.trackDelivery = function(trackingNumber) {
-        alert(`Suivi de la livraison ${trackingNumber}\n\nStatut: En transit\nPosition: Paris - Centre de tri\nLivraison prévue: Demain 14h-16h`);
-    };
-
-    window.editDelivery = function(id) {
-        alert('Fonction de modification de livraison à implémenter');
-    };
-
-    window.convertLead = function(id) {
-        const lead = leads.find(l => l.id === id);
-        if (lead && confirm(`Convertir ${lead.name} en client ?`)) {
-            // Ajouter aux clients
-            const newClient = {
+        if (categoryId) {
+            // Modification
+            const index = categories.findIndex(c => c.id == categoryId);
+            categories[index] = { ...categories[index], ...categoryData };
+            showNotification('Catégorie modifiée avec succès !', 'success');
+        } else {
+            // Ajout
+            const newCategory = {
                 id: Date.now(),
-                firstname: lead.name.split(' ')[0],
-                lastname: lead.name.split(' ')[1] || '',
-                email: lead.email,
-                phone: lead.phone,
-                company: '',
-                status: 'active',
-                city: '',
-                address: '',
-                postal: '',
-                country: 'France',
-                notes: `Converti depuis lead ${lead.source}`,
-                tags: 'Nouveau',
-                orders: 0,
-                totalValue: 0,
-                lastActivity: new Date().toISOString().split('T')[0]
+                ...categoryData
             };
-            
-            clients.push(newClient);
-            
-            // Supprimer des leads
-            leads.splice(leads.findIndex(l => l.id === id), 1);
-            
-            loadLeads();
-            updateMarketingStats();
-            showNotification(`${lead.name} converti en client !`, 'success');
+            categories.push(newCategory);
+            showNotification('Catégorie ajoutée avec succès !', 'success');
         }
-    };
 
-    window.contactLead = function(id) {
-        const lead = leads.find(l => l.id === id);
-        if (lead) {
-            window.open(`tel:${lead.phone}`);
-            showNotification(`Appel vers ${lead.name}`, 'info');
-        }
-    };
+        loadCategories();
+        syncWithHomepage(); // SYNCHRONISATION AUTOMATIQUE
+        document.getElementById('category-modal').style.display = 'none';
+    }
 
-    // Charger les données initiales
+    // Synchroniser automatiquement au chargement
     setTimeout(() => {
-        updateCRMStats();
-        updateDeliveryStats();
-        updateMarketingStats();
-        updateCommunicationStats();
-        updateAnalytics();
-    }, 100);
+        syncWithHomepage();
+    }, 1000);
+
+    // Exposer les fonctions globalement
+    window.editCategory = editCategory;
+    window.deleteCategory = deleteCategory;
+    window.editProduct = editProduct;
+    window.deleteProduct = deleteProduct;
+    window.toggleFeatured = toggleFeatured;
+
+    // Gestion de la connexion admin (simulation pour GitHub Pages)
+    if (window.location.hostname.endsWith('github.io')) {
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('login-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('admin-user').value.trim();
+                    const pass = document.getElementById('admin-pass').value.trim();
+                    const msg = document.getElementById('login-message');
+                    const validCombos = [
+                      { email: 'admin@mireb.com', pass: 'admin123' },
+                      { email: 'mirebcommercial@gmail.com', pass: 'Fiacre-19' }
+                    ];
+                    const isValid = validCombos.some(c => c.email === email && c.pass === pass);
+                    if (isValid) {
+                        msg.innerHTML = '<span style="color:green">Connexion réussie (mode démo GitHub Pages)</span>';
+                        document.getElementById('admin-login').style.display = 'none';
+                        document.getElementById('admin-panel').style.display = '';
+                    } else {
+                        msg.innerHTML = '<span style="color:red">Identifiants invalides (mode démo GitHub Pages)</span>';
+                    }
+                });
+            }
+        });
+    }
 });
 
 // Styles pour les notifications

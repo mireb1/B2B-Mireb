@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Synchronisation - Mireb B2B</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #5a6fd8; }
+        .data-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de Synchronisation Admin ↔ Page d'Accueil</h1>
+    
+    <div class="test-container">
+        <h2>État de la Synchronisation</h2>
+        <div id="sync-status"></div>
+        <button onclick="testSync()">Tester la Synchronisation</button>
+        <button onclick="clearData()">Vider les Données</button>
+        <button onclick="loadTestData()">Charger Données de Test</button>
+    </div>
+
+    <div class="test-container">
+        <h2>Données Actuelles dans localStorage</h2>
+        <h3>Catégories</h3>
+        <div id="categories-data" class="data-display"></div>
+        <h3>Produits</h3>
+        <div id="products-data" class="data-display"></div>
+    </div>
+
+    <div class="test-container">
+        <h2>Tests Automatiques</h2>
+        <div id="auto-tests"></div>
+        <button onclick="runAutoTests()">Lancer les Tests</button>
+    </div>
+
+    <script>
+        // Fonction pour afficher l'état
+        function updateDisplay() {
+            const categories = localStorage.getItem('mireb_categories');
+            const products = localStorage.getItem('mireb_products');
+            
+            document.getElementById('categories-data').textContent = 
+                categories ? JSON.stringify(JSON.parse(categories), null, 2) : 'Aucune donnée';
+            
+            document.getElementById('products-data').textContent = 
+                products ? JSON.stringify(JSON.parse(products), null, 2) : 'Aucune donnée';
+        }
+
+        // Test de synchronisation
+        function testSync() {
+            const statusDiv = document.getElementById('sync-status');
+            statusDiv.innerHTML = '';
+
+            try {
+                // Test 1: Vérifier localStorage
+                const categories = localStorage.getItem('mireb_categories');
+                const products = localStorage.getItem('mireb_products');
+                
+                if (categories) {
+                    statusDiv.innerHTML += '<div class="test-result success">✅ Catégories trouvées dans localStorage</div>';
+                } else {
+                    statusDiv.innerHTML += '<div class="test-result error">❌ Aucune catégorie dans localStorage</div>';
+                }
+
+                if (products) {
+                    statusDiv.innerHTML += '<div class="test-result success">✅ Produits trouvés dans localStorage</div>';
+                } else {
+                    statusDiv.innerHTML += '<div class="test-result error">❌ Aucun produit dans localStorage</div>';
+                }
+
+                // Test 2: Vérifier la structure des données
+                if (categories) {
+                    try {
+                        const catData = JSON.parse(categories);
+                        if (Array.isArray(catData) && catData.length > 0) {
+                            statusDiv.innerHTML += '<div class="test-result success">✅ Structure des catégories valide</div>';
+                            statusDiv.innerHTML += `<div class="test-result info">ℹ️ ${catData.length} catégorie(s) trouvée(s)</div>`;
+                        } else {
+                            statusDiv.innerHTML += '<div class="test-result error">❌ Structure des catégories invalide</div>';
+                        }
+                    } catch (e) {
+                        statusDiv.innerHTML += '<div class="test-result error">❌ Erreur de parsing des catégories</div>';
+                    }
+                }
+
+                if (products) {
+                    try {
+                        const prodData = JSON.parse(products);
+                        if (Array.isArray(prodData) && prodData.length > 0) {
+                            statusDiv.innerHTML += '<div class="test-result success">✅ Structure des produits valide</div>';
+                            statusDiv.innerHTML += `<div class="test-result info">ℹ️ ${prodData.length} produit(s) trouvé(s)</div>`;
+                        } else {
+                            statusDiv.innerHTML += '<div class="test-result error">❌ Structure des produits invalide</div>';
+                        }
+                    } catch (e) {
+                        statusDiv.innerHTML += '<div class="test-result error">❌ Erreur de parsing des produits</div>';
+                    }
+                }
+
+                // Test 3: Déclencher un événement de test
+                window.dispatchEvent(new CustomEvent('adminDataUpdated', {
+                    detail: {
+                        categories: categories ? JSON.parse(categories) : [],
+                        products: products ? JSON.parse(products) : [],
+                        timestamp: Date.now()
+                    }
+                }));
+                statusDiv.innerHTML += '<div class="test-result success">✅ Événement adminDataUpdated déclenché</div>';
+
+            } catch (error) {
+                statusDiv.innerHTML += `<div class="test-result error">❌ Erreur: ${error.message}</div>`;
+            }
+
+            updateDisplay();
+        }
+
+        // Vider les données
+        function clearData() {
+            localStorage.removeItem('mireb_categories');
+            localStorage.removeItem('mireb_products');
+            updateDisplay();
+            document.getElementById('sync-status').innerHTML = '<div class="test-result info">ℹ️ Données supprimées</div>';
+        }
+
+        // Charger des données de test
+        function loadTestData() {
+            const testCategories = [
+                { id: 1, name: 'Test Électronique', description: 'Catégorie de test', icon: 'fas fa-laptop', color: '#667eea' },
+                { id: 2, name: 'Test Mode', description: 'Catégorie de test', icon: 'fas fa-tshirt', color: '#764ba2' }
+            ];
+
+            const testProducts = [
+                { id: 1, name: 'Produit Test 1', category: 1, price: 99, description: 'Description test', featured: true, status: 'active' },
+                { id: 2, name: 'Produit Test 2', category: 2, price: 149, description: 'Description test', featured: false, status: 'active' }
+            ];
+
+            localStorage.setItem('mireb_categories', JSON.stringify(testCategories));
+            localStorage.setItem('mireb_products', JSON.stringify(testProducts));
+            updateDisplay();
+            
+            // Déclencher l'événement
+            window.dispatchEvent(new CustomEvent('adminDataUpdated', {
+                detail: {
+                    categories: testCategories,
+                    products: testProducts,
+                    timestamp: Date.now()
+                }
+            }));
+
+            document.getElementById('sync-status').innerHTML = '<div class="test-result success">✅ Données de test chargées et événement déclenché</div>';
+        }
+
+        // Tests automatiques
+        function runAutoTests() {
+            const testsDiv = document.getElementById('auto-tests');
+            testsDiv.innerHTML = '<h4>🔄 Exécution des tests...</h4>';
+
+            const tests = [
+                {
+                    name: 'Test localStorage accessible',
+                    test: () => {
+                        localStorage.setItem('test', 'ok');
+                        const result = localStorage.getItem('test') === 'ok';
+                        localStorage.removeItem('test');
+                        return result;
+                    }
+                },
+                {
+                    name: 'Test événements personnalisés',
+                    test: () => {
+                        let eventFired = false;
+                        const listener = () => { eventFired = true; };
+                        window.addEventListener('testEvent', listener);
+                        window.dispatchEvent(new CustomEvent('testEvent'));
+                        window.removeEventListener('testEvent', listener);
+                        return eventFired;
+                    }
+                },
+                {
+                    name: 'Test JSON parse/stringify',
+                    test: () => {
+                        const testObj = { test: 'value', number: 123 };
+                        const stringified = JSON.stringify(testObj);
+                        const parsed = JSON.parse(stringified);
+                        return parsed.test === 'value' && parsed.number === 123;
+                    }
+                }
+            ];
+
+            let passed = 0;
+            let total = tests.length;
+
+            tests.forEach((test, index) => {
+                setTimeout(() => {
+                    try {
+                        const result = test.test();
+                        if (result) {
+                            testsDiv.innerHTML += `<div class="test-result success">✅ ${test.name}</div>`;
+                            passed++;
+                        } else {
+                            testsDiv.innerHTML += `<div class="test-result error">❌ ${test.name}</div>`;
+                        }
+                    } catch (error) {
+                        testsDiv.innerHTML += `<div class="test-result error">❌ ${test.name}: ${error.message}</div>`;
+                    }
+
+                    if (index === tests.length - 1) {
+                        testsDiv.innerHTML += `<div class="test-result info"><strong>Résultat: ${passed}/${total} tests réussis</strong></div>`;
+                    }
+                }, index * 100);
+            });
+        }
+
+        // Écouter les événements de mise à jour
+        window.addEventListener('adminDataUpdated', (e) => {
+            console.log('📥 Événement adminDataUpdated reçu:', e.detail);
+            const statusDiv = document.getElementById('sync-status');
+            statusDiv.innerHTML += '<div class="test-result success">📡 Événement de synchronisation reçu!</div>';
+        });
+
+        // Initialiser l'affichage
+        updateDisplay();
+        
+        // Rafraîchir l'affichage toutes les 2 secondes
+        setInterval(updateDisplay, 2000);
+    </script>
+</body>
+</html>

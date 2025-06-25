@@ -57,6 +57,7 @@ class HomepageCategories {
             
             // Écouter les changements depuis l'admin
             this.setupEventListeners();
+            this.setupAdminSync();
             
             // Démarrer le rafraîchissement automatique
             this.startAutoRefresh();
@@ -231,7 +232,7 @@ class HomepageCategories {
                     </div>
                     
                     <div id="featured-products-container" class="products-grid">
-                        <!-- Les produits populaires seront insérés ici -->
+                        <!-- Les produits populaires seront insérées ici -->
                     </div>
                     
                     <div class="section-footer">
@@ -535,6 +536,7 @@ class HomepageCategories {
     setupEventListeners() {
         this.listenForUpdates();
         this.initializeEvents();
+        this.setupAdminSync();
     }
 
     // Écouter les mises à jour depuis l'admin
@@ -560,6 +562,128 @@ class HomepageCategories {
         });
     }
 
+    // Améliorer la synchronisation avec l'admin
+    setupAdminSync() {
+        // Écouter les événements personnalisés de l'admin
+        window.addEventListener('adminDataUpdated', (e) => {
+            console.log('📥 Données mises à jour depuis l\'admin', e.detail);
+            
+            // Mettre à jour les données locales
+            if (e.detail.categories) {
+                this.state.categories = e.detail.categories;
+            }
+            if (e.detail.products) {
+                this.state.productsData = e.detail.products;
+            }
+            
+            // Associer les produits avec les catégories
+            this.associateProductsWithCategories();
+            
+            // Re-rendre l'interface
+            this.renderCategories();
+            this.renderFeaturedProducts();
+            
+            // Mettre à jour le timestamp
+            this.state.lastUpdate = new Date(e.detail.timestamp);
+            
+            // Notifier l'utilisateur si visible
+            if (document.visibilityState === 'visible') {
+                this.showUpdateNotification();
+            }
+        });
+        
+        // Écouter les changements dans le localStorage
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'mireb_categories' || e.key === 'mireb_products') {
+                console.log('📱 Changement détecté dans le localStorage:', e.key);
+                this.handleStorageChange(e);
+            }
+        });
+        
+        // Vérifier les mises à jour périodiquement
+        setInterval(() => {
+            this.checkForUpdates();
+        }, 5000); // Vérifier toutes les 5 secondes
+    }
+    
+    // Gérer les changements du localStorage
+    handleStorageChange(e) {
+        try {
+            if (e.key === 'mireb_categories' && e.newValue) {
+                const newCategories = JSON.parse(e.newValue);
+                if (JSON.stringify(newCategories) !== JSON.stringify(this.state.categories)) {
+                    this.state.categories = newCategories;
+                    this.renderCategories();
+                    console.log('🔄 Catégories mises à jour depuis le localStorage');
+                }
+            }
+            
+            if (e.key === 'mireb_products' && e.newValue) {
+                const newProducts = JSON.parse(e.newValue);
+                if (JSON.stringify(newProducts) !== JSON.stringify(this.state.productsData)) {
+                    this.state.productsData = newProducts;
+                    this.associateProductsWithCategories();
+                    this.renderFeaturedProducts();
+                    console.log('🔄 Produits mis à jour depuis le localStorage');
+                }
+            }
+        } catch (error) {
+            console.error('❌ Erreur lors du traitement du changement de localStorage:', error);
+        }
+    }
+    
+    // Vérifier les mises à jour
+    checkForUpdates() {
+        try {
+            // Vérifier les catégories
+            const savedCategories = localStorage.getItem('mireb_categories');
+            if (savedCategories) {
+                const categories = JSON.parse(savedCategories);
+                if (JSON.stringify(categories) !== JSON.stringify(this.state.categories)) {
+                    this.state.categories = categories;
+                    this.renderCategories();
+                    console.log('🔄 Catégories synchronisées automatiquement');
+                }
+            }
+            
+            // Vérifier les produits
+            const savedProducts = localStorage.getItem('mireb_products');
+            if (savedProducts) {
+                const products = JSON.parse(savedProducts);
+                if (JSON.stringify(products) !== JSON.stringify(this.state.productsData)) {
+                    this.state.productsData = products;
+                    this.associateProductsWithCategories();
+                    this.renderFeaturedProducts();
+                    console.log('🔄 Produits synchronisés automatiquement');
+                }
+            }
+        } catch (error) {
+            console.error('❌ Erreur lors de la vérification des mises à jour:', error);
+        }
+    }
+    
+    // Afficher une notification de mise à jour
+    showUpdateNotification() {
+        const notification = document.createElement('div');
+        notification.className = 'update-notification';
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-sync-alt"></i>
+                <span>Données mises à jour !</span>
+                <button onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Supprimer automatiquement après 3 secondes
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
+    }
+    
     // Actualiser les données
     refresh() {
         this.loadData();
